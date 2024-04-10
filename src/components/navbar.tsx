@@ -5,8 +5,8 @@ function Navbar() {
     <div className="py-3 px-1  border-b border-b-slate-900  ">
       <div className="max-w-7xl mx-auto flex justify-between ">
         <div className="flex items-center gap-2 font-4 ">
-          <TfiTarget className="text-lg text-gray-300" />
-          <p className="font-bold  text-md ">Crypto Scope</p>
+          <TfiTarget className="text-xl text-gray-200" />
+          <p className="font-bold  text-lg ">CRYPTO SCOPE</p>
         </div>
         <div className="flex items-center gap-4 ">
           <div>

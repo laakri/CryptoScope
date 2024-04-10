@@ -1,19 +1,53 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { FaSearch } from "react-icons/fa";
 
 function HomePage() {
   return (
-    <div className="  flex min-h-60  items-center justify-center px-16">
-      <div className="relative w-full max-w-lg">
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl "></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl "></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl "></div>
-        <div className="m-8 relative space-y-4">
-          <div className="p-5  rounded-lg flex items-center justify-between space-x-8">
-            <Input type="email" placeholder="Email" />
-            <Button type="submit">Subscribe</Button>
+    <div className="max-w-7xl mx-auto w-full h-[40rem]   flex justify-between items-center p-6 ">
+      <div className="flex flex-col gap-6 ">
+        <h1 className="text-5xl max-w-[46rem]">
+          Explore more with Crypto Scope
+        </h1>
+        <p className="text-gray-300  max-w-[32rem]">
+          Explore more with Crypto Scope more with Crypto Scope Explore more
+          with Crypto Scope Explore more with Crypto Scope
+        </p>
+        <div className=" relative max-w-96">
+          <Input type="text" placeholder="Search by Wallet address" />
+          <Button
+            type="submit"
+            variant="ghost"
+            className="absolute top-0 right-0"
+          >
+            <FaSearch />
+          </Button>
+        </div>
+        <h1>Trending</h1>
+        <div className="flex flex-wrap space-x-2  ">
+          <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            BTC $69,335.05
+          </div>
+          <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            ETH $3,521.91
+          </div>
+          <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            GALA $0.05981
+          </div>
+          <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            MAGIC $1.05
           </div>
         </div>
+      </div>
+      <div className=" px-16">
+        <div className="relative w-full max-w-lg">
+          <div className="absolute top-0 -left-4 w-96 h-96  bg-red-900 rounded-full opacity-30 filter blur-xl animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-yellow-900 rounded-full opacity-30 filter blur-xl  animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-0 w-96 h-96 bg-pink-900 rounded-full  opacity-30 filter blur-xl  animate-blob animation-delay-4000"></div>
+          <div className="absolute -bottom-8 right-0 w-96 h-96 bg-purple-900 rounded-full  opacity-30 filter blur-xl  animate-blob animation-delay-4000"></div>
+          <div className="m-8 relative space-y-4"></div>
+        </div>
+        <div></div>
       </div>
     </div>
   );
