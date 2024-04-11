@@ -2,19 +2,21 @@ const express = require("express");
 const router = express.Router();
 const Crypto = require("../models/crypto");
 const cron = require("node-cron");
+const axios = require("axios");
 
-// Function to fetch and update cryptocurrency data
 const fetchDataAndUpdate = async () => {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
     );
-    const data = await response.json();
 
-    // Update existing documents in the collection
+    const data = response.data;
+
     await Promise.all(
       data.map(async (coin) => {
-        await Crypto.findOneAndUpdate({ id: coin.id }, coin, { upsert: true });
+        await Crypto.findOneAndUpdate({ id: coin.id }, coin, {
+          upsert: true,
+        });
       })
     );
 
