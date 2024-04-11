@@ -7,6 +7,7 @@ import SignUp from "@/Auth/SignUp";
 import { useUserStore } from "@/stores/user";
 import { MdLogout } from "react-icons/md";
 import { useEffect, useRef } from "react";
+import whitelogo from "../assets/Lines/X-line.png";
 
 function Navbar() {
   const { user, logout } = useUserStore();
@@ -26,12 +27,13 @@ function Navbar() {
     logout();
   };
   return (
-    <div className="sticky top-0 left-0 w-full  z-10 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2">
-      <div className="py-3 px-1  border-b border-b-slate-900  ">
+    <div className="sticky top-0 left-0 w-full z-10 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2 border-b">
+      <div className="py-3 px-1 border-b">
         <div className="max-w-7xl mx-auto flex justify-between ">
           <Link to="/" className="text-gray-300">
             <Button variant="link" className="flex items-center gap-2 font-4 ">
-              <TfiTarget className="text-xl text-gray-200" />
+              {/* <TfiTarget className="text-xl text-gray-200" /> */}
+              <img src={whitelogo} alt="white-logo" className="w-6" />
               <p className="font-bold  text-lg ">CRYPTO SCOPE</p>
             </Button>
           </Link>
@@ -88,7 +90,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <div className="w-full h-10  bg-purple-900 bg-opacity-30 inline-flex flex-nowrap overflow-hidden mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)">
+      <div className="w-full h-10  bg-opacity-50 backdrop-filter backdrop-blur-lg inline-flex flex-nowrap overflow-hidden mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)">
         <ul
           ref={logosRef}
           className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll gap-6"

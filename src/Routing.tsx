@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/Homepage";
-import CoinsList from "./pages/CoinsList";
-import Portfolio from "./pages/Portfolio";
+import HomePage from "./PublicPages/Homepage";
+import CoinsList from "./PublicPages/CoinsList";
+import Portfolio from "./Portfolio/Portfolio";
 
 function App() {
   return (

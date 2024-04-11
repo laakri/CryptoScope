@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { FaRegStar } from "react-icons/fa";
 import {
   MdOutlineRemoveCircle,
   MdTrendingDown,
   MdTrendingUp,
 } from "react-icons/md";
 import { Button } from "./ui/button";
+import arrowimg from "../assets/Lines/squi-arrow.png";
 
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -33,7 +33,7 @@ const Favorites: React.FC = () => {
       <div className="rounded-lg border min-h-72 max-h-max  ">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2 justify-center">
-            <FaRegStar />
+            <img src={arrowimg} alt="" className="h-7 " />
             Favorites Coins
           </h2>
           {favorites.length === 0 ? (
