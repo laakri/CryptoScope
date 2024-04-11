@@ -5,13 +5,14 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
+const cryptoRoutes = require("./routes/crypto");
+const cryptoProfileRoutes = require("./routes/cryptoprofile");
 
 const cors = require("cors");
 const app = express();
 app.use(cors());
 
 mongoose.set("strictQuery", false);
-//conection to data
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -41,5 +42,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/cryptos", cryptoRoutes);
+app.use("/api/cryptosProfiles", cryptoProfileRoutes);
 
 module.exports = app;
