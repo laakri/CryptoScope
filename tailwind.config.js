@@ -84,11 +84,16 @@ module.exports = {
             transform: "tranlate(0px, 0px) scale(1)",
           },
         },
+        "infinite-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
+        },
       },
       animation: {
         blob: "blob 7s infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "infinite-scroll": "infinite-scroll 25s linear infinite",
       },
     },
   },

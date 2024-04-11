@@ -9,7 +9,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <BrowserRouter>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col ">
           <Navbar />
           <Routing />
         </div>

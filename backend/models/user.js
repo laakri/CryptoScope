@@ -7,12 +7,11 @@ const userSchema = mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    phoneNumber: { type: String },
-    lastLoginAttempt: { type: Date },
-    location: { type: String },
-    bio: { type: String },
     verified: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false },
+    targetTables: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "TargetTable" },
+    ],
   },
   { timestamps: true }
 );
@@ -22,11 +21,5 @@ const enumOptions = {};
 userSchema.plugin(enumValues, enumOptions);
 
 userSchema.plugin(uniqueValidator);
-
-userSchema.virtual("exercises", {
-  ref: "UserExercise",
-  localField: "_id",
-  foreignField: "user",
-});
 
 module.exports = mongoose.model("User", userSchema);
