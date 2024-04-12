@@ -10,7 +10,7 @@ const Portfolio: React.FC = () => {
   return (
     <div
       className="max-w-7xl w-full mx-auto px-4  flex justify-between gap-4 min-h-screen"
-      style={{ minHeight: "calc(100vh - 6rem)" }}
+      style={{ minHeight: "calc(100vh - 10rem)" }}
     >
       <div className="w-full flex gap-4">
         <div className="overflow-hidden min-w-[13rem] h-full border-r  mt-4 pt-4">

@@ -6,7 +6,7 @@ import {
 } from "react-icons/md";
 import { Button } from "./ui/button";
 import arrowimg from "../assets/Lines/squi-arrow.png";
-
+import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
 
@@ -37,9 +37,14 @@ const Favorites: React.FC = () => {
             Favorites Coins
           </h2>
           {favorites.length === 0 ? (
-            <p className="text-gray-400 text-center mt-12">
+            <div className="text-gray-400 text-center mt-12  flex flex-col items-center gap-2 ">
+              <img
+                src={docnotfounimg}
+                alt="docnotfounimg"
+                className="h-14 w-14"
+              />
               No favorite coins added yet.
-            </p>
+            </div>
           ) : (
             favorites.map((coin) => (
               <div
