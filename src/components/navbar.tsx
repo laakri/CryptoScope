@@ -42,16 +42,14 @@ function Navbar() {
           <div className=" relative w-96">
             <Input
               type="text"
-              placeholder="Search by Wallet address"
-              className="h-8"
+              placeholder="Search For User | Something else"
+              className="h-7.5"
             />
-            <Button
-              type="submit"
-              variant="secondary"
-              className="h-6 px-2 absolute top-1 right-1 text-gray-400"
-            >
-              <FaSearch className="text-xs" />
-            </Button>
+            <p className="text-sm text-muted-foreground absolute top-1 right-1.5">
+              <kbd className="pointer-events-none inline-flex ml-2 h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <span className="text-xs">⌘</span>S
+              </kbd>
+            </p>
           </div>
           <div className="flex items-center gap-4 ">
             <div>
