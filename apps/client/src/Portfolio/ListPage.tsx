@@ -29,8 +29,7 @@ const ListPage: React.FC = () => {
           </div>
         </div>
         <CoinSearchDialog />
-        <div className="h-2"></div>
-        <div className=" mt-4 text-2xl flex gap-4 text-gray-200 ">
+        <div className=" text-2xl flex gap-4 text-gray-200 ">
           Exemple of Coins List
         </div>
         <img src={targetlistimg} alt="targetlistimg" />

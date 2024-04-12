@@ -16,23 +16,23 @@ import { TiPlus } from "react-icons/ti";
 import { Command } from "cmdk";
 
 const CoinSearchDialog: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
+  // React.useEffect(() => {
+  //   const down = (e: KeyboardEvent) => {
+  //     if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+  //       e.preventDefault();
+  //       setOpen((open) => !open);
+  //     }
+  //   };
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+  //   document.addEventListener("keydown", down);
+  //   return () => document.removeEventListener("keydown", down);
+  // }, []);
 
-  const toggleDialog = () => {
-    setOpen((open) => !open);
-  };
+  // const toggleDialog = () => {
+  //   setOpen((open) => !open);
+  // };
   return (
     <>
       {/* <div className="relative">
