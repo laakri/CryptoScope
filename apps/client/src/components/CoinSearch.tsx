@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/command";
 import { Input } from "./ui/input";
 import { TiPlus } from "react-icons/ti";
+import { Command } from "cmdk";
 
 const CoinSearchDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -34,7 +35,7 @@ const CoinSearchDialog: React.FC = () => {
   };
   return (
     <>
-      <div className="relative">
+      {/* <div className="relative">
         <Input
           onClick={toggleDialog}
           placeholder="Search..."
@@ -45,8 +46,8 @@ const CoinSearchDialog: React.FC = () => {
             <span className="text-xs">⌘</span>J
           </kbd>
         </p>
-      </div>
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      </div> */}
+      <Command className="border rounded-md ">
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
@@ -91,7 +92,7 @@ const CoinSearchDialog: React.FC = () => {
             </CommandItem>
           </CommandGroup>
         </CommandList>
-      </CommandDialog>
+      </Command>
     </>
   );
 };
