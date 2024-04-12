@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/command";
 import { Input } from "./ui/input";
 
-const CommandDialogDemo: React.FC = () => {
+const CoinSearchDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -44,10 +44,9 @@ const CommandDialogDemo: React.FC = () => {
         <Input
           onClick={toggleDialog}
           placeholder="Search..."
-          className="h-10 rounded-xl placeholder:text-lg"
+          className="h-10 rounded-lg placeholder:text-lg"
         ></Input>
-        <p className="text-sm text-muted-foreground absolute top-2.5 right-3">
-          Press
+        <p className="text-sm text-muted-foreground absolute top-2.5 right-2">
           <kbd className="pointer-events-none inline-flex ml-2 h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             <span className="text-xs">⌘</span>J
           </kbd>
@@ -94,4 +93,4 @@ const CommandDialogDemo: React.FC = () => {
     </>
   );
 };
-export default CommandDialogDemo;
+export default CoinSearchDialog;

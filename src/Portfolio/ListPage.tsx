@@ -1,7 +1,9 @@
 import { Input } from "@/components/ui/input";
 import startedimg from "../assets/Lines/arrow.png";
 import circleimg from "../assets/Lines/circle-blue.png";
-import CommandDialogDemo from "@/components/CoinSearch";
+import CoinSearchDialog from "@/components/CoinSearch";
+import targetlistimg from "../assets/Lines/image-removebg-preview (1).png";
+
 const ListPage: React.FC = () => {
   return (
     <div className="mx-8 my-6">
@@ -26,8 +28,12 @@ const ListPage: React.FC = () => {
             />
           </div>
         </div>
-
-        <CommandDialogDemo />
+        <CoinSearchDialog />
+        <div className="h-2"></div>
+        <div className=" mt-4 text-2xl flex gap-4 text-gray-200 ">
+          Exemple of Coins List
+        </div>
+        <img src={targetlistimg} alt="targetlistimg" />
       </div>
     </div>
   );
