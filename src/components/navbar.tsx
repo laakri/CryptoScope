@@ -8,6 +8,8 @@ import { useUserStore } from "@/stores/user";
 import { MdLogout } from "react-icons/md";
 import { useEffect, useRef } from "react";
 import whitelogo from "../assets/Lines/X-line.png";
+import { FaSearch } from "react-icons/fa";
+import { Input } from "./ui/input";
 
 function Navbar() {
   const { user, logout } = useUserStore();
@@ -29,7 +31,7 @@ function Navbar() {
   return (
     <div className="sticky top-0 left-0 w-full z-10 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2 border-b">
       <div className="py-3 px-1 border-b">
-        <div className="max-w-7xl mx-auto flex justify-between ">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link to="/" className="text-gray-300">
             <Button variant="link" className="flex items-center gap-2 font-4 ">
               {/* <TfiTarget className="text-xl text-gray-200" /> */}
@@ -37,7 +39,20 @@ function Navbar() {
               <p className="font-bold  text-lg ">CRYPTO SCOPE</p>
             </Button>
           </Link>
-
+          <div className=" relative w-96">
+            <Input
+              type="text"
+              placeholder="Search by Wallet address"
+              className="h-8"
+            />
+            <Button
+              type="submit"
+              variant="secondary"
+              className="h-6 px-2 absolute top-1 right-1 text-gray-400"
+            >
+              <FaSearch className="text-xs" />
+            </Button>
+          </div>
           <div className="flex items-center gap-4 ">
             <div>
               <Link to="/CoinsList" className="text-gray-300">
@@ -93,30 +108,30 @@ function Navbar() {
       <div className="w-full h-10  bg-opacity-50 backdrop-filter backdrop-blur-lg inline-flex flex-nowrap overflow-hidden mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)">
         <ul
           ref={logosRef}
-          className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll gap-6"
+          className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll"
         >
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
-          <li>
+          <li className="mx-4">
             <p>BTCBTCBTC</p>
           </li>
         </ul>
