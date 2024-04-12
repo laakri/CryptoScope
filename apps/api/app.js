@@ -14,7 +14,9 @@ app.use(cors());
 
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(
+    "mongodb+srv://glassisaif:onJwZJGPsumzGsEw@cluster0.szu8ryk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
   .then(() => {
     console.log("Connected to database!");
   })
