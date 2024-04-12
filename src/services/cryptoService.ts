@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-// import axios from "axios";
 
-const CRYPTO_URL = "http://localhost:4401/api";
+const API_URL = "http://localhost:4401/api";
 interface Coin {
   id: string;
   name: string;
@@ -35,7 +34,7 @@ const useCryptoService = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
 
   useEffect(() => {
-    const source = new EventSource(`${CRYPTO_URL}/cryptos/updates`);
+    const source = new EventSource(`${API_URL}/cryptos/updates`);
 
     source.onmessage = (event) => {
       try {

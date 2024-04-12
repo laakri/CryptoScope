@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const targetSchema = mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String },
     coins: [{ type: mongoose.Schema.Types.ObjectId, ref: "Coin" }],
   },
   { timestamps: true }

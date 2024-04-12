@@ -6,10 +6,10 @@ const User = require("../models/user");
 // Route to create a new target table for a user
 router.post("/targetTables", async (req, res) => {
   try {
-    const { userId, name } = req.body;
+    const { userId } = req.body;
 
     // Create a new target table
-    const newTargetTable = new TargetTable({ name });
+    const newTargetTable = new TargetTable();
     await newTargetTable.save();
 
     // Find the user and push the new target table to their targetTables array

@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons";
+import { RocketIcon } from "@radix-ui/react-icons";
 
 import {
   CommandDialog,
@@ -19,6 +12,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Input } from "./ui/input";
+import { TiPlus } from "react-icons/ti";
 
 const CoinSearchDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -57,35 +51,43 @@ const CoinSearchDialog: React.FC = () => {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <FaceIcon className="mr-2 h-4 w-4" />
-              <span>Search Emoji</span>
+            <CommandItem className="">
+              <RocketIcon className="mr-2 h-4 w-4" />
+              <span>Bitcoin</span>
+              <CommandShortcut>
+                <TiPlus />
+              </CommandShortcut>
             </CommandItem>
             <CommandItem>
               <RocketIcon className="mr-2 h-4 w-4" />
-              <span>Launch</span>
+              <span>Ethereum</span>
+              <CommandShortcut>
+                <TiPlus />
+              </CommandShortcut>
+            </CommandItem>
+            <CommandItem>
+              <RocketIcon className="mr-2 h-4 w-4" />
+              <span>Solana</span>
+              <CommandShortcut>
+                <TiPlus />
+              </CommandShortcut>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Settings">
+          <CommandGroup heading="Trending Coins">
             <CommandItem>
-              <PersonIcon className="mr-2 h-4 w-4" />
+              <RocketIcon className="mr-2 h-4 w-4" />
               <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
+              <CommandShortcut>
+                <TiPlus />
+              </CommandShortcut>
             </CommandItem>
             <CommandItem>
-              <EnvelopeClosedIcon className="mr-2 h-4 w-4" />
+              <RocketIcon className="mr-2 h-4 w-4" />
               <span>Mail</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <GearIcon className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
+              <CommandShortcut>
+                <TiPlus />
+              </CommandShortcut>
             </CommandItem>
           </CommandGroup>
         </CommandList>
