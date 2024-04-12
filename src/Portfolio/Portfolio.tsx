@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { FaBitcoin, FaHandsAslInterpreting } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { FaRegStar } from "react-icons/fa";
-import StartingSection from "./StartingPage";
+import { Link, Outlet } from "react-router-dom";
 
 const Portfolio: React.FC = () => {
   return (
@@ -14,18 +14,24 @@ const Portfolio: React.FC = () => {
     >
       <div className="w-full flex gap-4">
         <div className="overflow-hidden min-w-[13rem] h-full border-r  mt-4 pt-4">
-          <div className="text-gray-300 flex items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer gap-2">
+          <Link
+            to="/Portfolio/Started"
+            className="text-gray-300 flex items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer gap-2"
+          >
             <FaHandsAslInterpreting className="text-yellow-400" />
             <div className="flex items-center gap-1">
               <p className="text-gray-200 text-md">Getting Started</p>
             </div>
-          </div>
-          <div className="text-gray-300 flex items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer gap-2">
+          </Link>
+          <Link
+            to="/Portfolio/GeneralIdea"
+            className="text-gray-300 flex items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer gap-2"
+          >
             <FaBitcoin className="text-blue-400" />
             <div className="flex items-center gap-1">
-              <p className="text-gray-200 text-md">General idea</p>
+              <p className="text-gray-200 text-md">General ideas</p>
             </div>
-          </div>
+          </Link>
           <div className="my-4 px-2">
             <input
               type="text"
@@ -33,7 +39,10 @@ const Portfolio: React.FC = () => {
               className="bg-gray-800 text-gray-300 rounded-md py-1 px-2 w-full focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>
-          <div className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer">
+          <Link
+            to="/Portfolio/list/66"
+            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
+          >
             <div className="flex items-center gap-1">
               <p className="text-gray-200 text-md">Lists</p>
               <p className="text-gray-400 text-xs">Browse all</p>
@@ -41,7 +50,7 @@ const Portfolio: React.FC = () => {
             <button className="bg-gray-800 hover:bg-gray-600 rounded-md p-1">
               <IoMdAdd className="text-md" />
             </button>
-          </div>
+          </Link>
 
           <div className="min-h-24 px-1 flex flex-col gap-1">
             <div className="flex items-center gap-1">
@@ -77,7 +86,7 @@ const Portfolio: React.FC = () => {
               </Button>
             </div>
           </div>
-          <StartingSection />
+          <Outlet />
         </div>
       </div>
       <Favorites />
