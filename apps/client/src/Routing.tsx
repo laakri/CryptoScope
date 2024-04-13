@@ -6,6 +6,7 @@ import StartingSection from "./Portfolio/StartingSection";
 import GeneralIdea from "./Portfolio/GeneralIdea";
 import CreateList from "./Portfolio/CreateList";
 import ListTable from "./Portfolio/ListTable";
+import ListPage from "./Portfolio/ListPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="GeneralIdea" element={<GeneralIdea />} />
         <Route path="List/:id" element={<CreateList />} />
         <Route path="List" element={<ListTable />} />
+        <Route path="ListPage" element={<ListPage />} />
       </Route>
     </Routes>
   );
