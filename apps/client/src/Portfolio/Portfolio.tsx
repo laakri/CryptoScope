@@ -3,8 +3,9 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { FaBitcoin, FaHandsAslInterpreting } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import { FaRegStar } from "react-icons/fa";
+import { FaPlus, FaRegStar } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
+import { ButtonSmooth } from "@/components/ui/button-smooth";
 
 const Portfolio: React.FC = () => {
   return (
@@ -41,7 +42,7 @@ const Portfolio: React.FC = () => {
           </div>
           <Link
             to="/Portfolio/list"
-            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
+            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 px-2 py-1 mb-1 hover:cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <p className="text-gray-200 text-md">Favorite Lists</p>
@@ -50,26 +51,28 @@ const Portfolio: React.FC = () => {
               </p>
             </div>
           </Link>
-          <div className="min-h-6 px-1 flex flex-col gap-1 mb-4">
-            <div className="flex items-center gap-1">
-              <MdKeyboardArrowRight />
-              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
-                Solana Coins
-              </p>
+          <Link to="ListPage">
+            <div className="min-h-6 px-1 flex flex-col gap-1 mb-4">
+              <div className="flex items-center gap-1">
+                <MdKeyboardArrowRight />
+                <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
+                  Solana Coins
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
           <Link
             to="/Portfolio/list"
-            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
+            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 px-2 py-1 hover:cursor-pointer"
           >
             <div className="flex items-center gap-1">
               <p className="text-gray-200 text-md">Lists</p>
               <p className="text-gray-400 text-xs">Browse all</p>
             </div>
             <Link to="/Portfolio/list/66">
-              <button className="bg-gray-800 hover:bg-gray-600 rounded-md p-1">
-                <IoMdAdd className="text-md" />
-              </button>
+              <ButtonSmooth className="text-[11px]">
+                <FaPlus />
+              </ButtonSmooth>
             </Link>
           </Link>
 
@@ -78,18 +81,6 @@ const Portfolio: React.FC = () => {
               <MdKeyboardArrowRight />
               <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
                 Solana Coins
-              </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <MdKeyboardArrowRight />
-              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
-                Ethereum Coins
-              </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <MdKeyboardArrowRight />
-              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
-                Favorite Coins
               </p>
             </div>
           </div>
