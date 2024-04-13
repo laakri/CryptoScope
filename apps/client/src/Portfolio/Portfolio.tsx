@@ -43,6 +43,25 @@ const Portfolio: React.FC = () => {
             to="/Portfolio/list"
             className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
           >
+            <div className="flex items-center gap-2">
+              <p className="text-gray-200 text-md">Favorite Lists</p>
+              <p className="text-gray-400 text-xs">
+                <FaRegStar />
+              </p>
+            </div>
+          </Link>
+          <div className="min-h-6 px-1 flex flex-col gap-1">
+            <div className="flex items-center gap-1">
+              <MdKeyboardArrowRight />
+              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
+                Solana Coins
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/Portfolio/list"
+            className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
+          >
             <div className="flex items-center gap-1">
               <p className="text-gray-200 text-md">Lists</p>
               <p className="text-gray-400 text-xs">Browse all</p>
@@ -54,18 +73,24 @@ const Portfolio: React.FC = () => {
             </Link>
           </Link>
 
-          <div className="min-h-24 px-1 flex flex-col gap-1">
+          <div className="px-1 flex flex-col gap-1">
             <div className="flex items-center gap-1">
               <MdKeyboardArrowRight />
-              <p className="text-gray-300">Solana Coins</p>
+              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
+                Solana Coins
+              </p>
             </div>
             <div className="flex items-center gap-1">
               <MdKeyboardArrowRight />
-              <p className="text-gray-300">Ethereum Coins</p>
+              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
+                Ethereum Coins
+              </p>
             </div>
             <div className="flex items-center gap-1">
               <MdKeyboardArrowRight />
-              <p className="text-gray-300">Favorite Coins</p>
+              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
+                Favorite Coins
+              </p>
             </div>
           </div>
         </div>

@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaSearch } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const ListTable: React.FC = () => {
   return (
@@ -31,6 +33,17 @@ const ListTable: React.FC = () => {
           <Button variant="link" className=" text-md hover:text-yellow-500">
             <FaRegStar />
           </Button>
+        </div>
+        <div className="flex flex-col justify-center items-center gap-2 w-full py-2 px-2 rounded-md border">
+          <p className="text-gray-400">No list created yet</p>
+          <Link to="/Portfolio/list/66">
+            <Button
+              variant="ghost"
+              className="h-6 px-2 bg-muted hover:bg-slate-700 text-[16px]  "
+            >
+              <IoMdAdd />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
