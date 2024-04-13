@@ -3,6 +3,7 @@ import startedimg from "../assets/Lines/arrow.png";
 import circleimg from "../assets/Lines/circle-blue.png";
 import CoinSearchDialog from "@/components/CoinSearch";
 import targetlistimg from "../assets/Lines/image-removebg-preview (1).png";
+import { Command } from "cmdk";
 
 const CreateList: React.FC = () => {
   return (
@@ -28,7 +29,10 @@ const CreateList: React.FC = () => {
             />
           </div>
         </div>
-        <CoinSearchDialog />
+        <Command className="border rounded-md ">
+          <CoinSearchDialog />
+        </Command>
+
         <div className="text-2xl flex gap-4 text-gray-200 ">
           Exemple of Coins List
         </div>
