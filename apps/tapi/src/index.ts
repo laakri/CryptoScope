@@ -1,5 +1,5 @@
-export function main(): string {
-  return 'Hello World';
-}
+import { createServer } from './server';
 
-console.log(main());
+const server = createServer({ dev: true, port: 8001, prefix: '/trpc' });
+
+server.start();
