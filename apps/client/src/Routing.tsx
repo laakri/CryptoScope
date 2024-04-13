@@ -4,7 +4,8 @@ import CoinsList from "./PublicPages/CoinsList";
 import Portfolio from "./Portfolio/Portfolio";
 import StartingSection from "./Portfolio/StartingSection";
 import GeneralIdea from "./Portfolio/GeneralIdea";
-import ListPage from "./Portfolio/ListPage";
+import CreateList from "./Portfolio/CreateList";
+import ListTable from "./Portfolio/ListTable";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="" element={<StartingSection />} />
         <Route path="Started" element={<StartingSection />} />
         <Route path="GeneralIdea" element={<GeneralIdea />} />
-        <Route path="List/:id" element={<ListPage />} />
+        <Route path="List/:id" element={<CreateList />} />
+        <Route path="List" element={<ListTable />} />
       </Route>
     </Routes>
   );
