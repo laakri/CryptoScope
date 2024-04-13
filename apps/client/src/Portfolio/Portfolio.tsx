@@ -40,16 +40,18 @@ const Portfolio: React.FC = () => {
             />
           </div>
           <Link
-            to="/Portfolio/list/66"
+            to="/Portfolio/list"
             className="text-gray-300 flex justify-between items-center rounded-sm hover:bg-gray-900 p-2 hover:cursor-pointer"
           >
             <div className="flex items-center gap-1">
               <p className="text-gray-200 text-md">Lists</p>
               <p className="text-gray-400 text-xs">Browse all</p>
             </div>
-            <button className="bg-gray-800 hover:bg-gray-600 rounded-md p-1">
-              <IoMdAdd className="text-md" />
-            </button>
+            <Link to="/Portfolio/list/66">
+              <button className="bg-gray-800 hover:bg-gray-600 rounded-md p-1">
+                <IoMdAdd className="text-md" />
+              </button>
+            </Link>
           </Link>
 
           <div className="min-h-24 px-1 flex flex-col gap-1">
@@ -80,10 +82,12 @@ const Portfolio: React.FC = () => {
               <Button variant="link" className=" text-md hover:text-yellow-500">
                 <FaRegStar />
               </Button>
-              <Button variant="ghost" className="flex gap-1">
-                Add List
-                <IoMdAdd className="text-md" />
-              </Button>
+              <Link to="/Portfolio/list/66">
+                <Button variant="ghost" className="flex gap-1">
+                  Add List
+                  <IoMdAdd className="text-md" />
+                </Button>
+              </Link>
             </div>
           </div>
           <Outlet />

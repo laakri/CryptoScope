@@ -4,7 +4,7 @@ import circleimg from "../assets/Lines/circle-blue.png";
 import CoinSearchDialog from "@/components/CoinSearch";
 import targetlistimg from "../assets/Lines/image-removebg-preview (1).png";
 
-const ListPage: React.FC = () => {
+const CreateList: React.FC = () => {
   return (
     <div className="mx-8 my-6">
       <h1 className="text-4xl">Create new List</h1>
@@ -29,7 +29,7 @@ const ListPage: React.FC = () => {
           </div>
         </div>
         <CoinSearchDialog />
-        <div className=" text-2xl flex gap-4 text-gray-200 ">
+        <div className="text-2xl flex gap-4 text-gray-200 ">
           Exemple of Coins List
         </div>
         <img src={targetlistimg} alt="targetlistimg" />
@@ -38,4 +38,4 @@ const ListPage: React.FC = () => {
   );
 };
 
-export default ListPage;
+export default CreateList;
