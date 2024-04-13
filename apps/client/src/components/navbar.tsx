@@ -1,4 +1,3 @@
-import { TfiTarget } from "react-icons/tfi";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
@@ -8,7 +7,6 @@ import { useUserStore } from "@/stores/user";
 import { MdLogout } from "react-icons/md";
 import { useEffect, useRef } from "react";
 import whitelogo from "../assets/Lines/X-line.png";
-import { FaSearch } from "react-icons/fa";
 import { Input } from "./ui/input";
 
 function Navbar() {
