@@ -50,7 +50,7 @@ const Portfolio: React.FC = () => {
               </p>
             </div>
           </Link>
-          <div className="min-h-6 px-1 flex flex-col gap-1">
+          <div className="min-h-6 px-1 flex flex-col gap-1 mb-4">
             <div className="flex items-center gap-1">
               <MdKeyboardArrowRight />
               <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
