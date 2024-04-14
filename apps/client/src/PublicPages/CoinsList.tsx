@@ -29,8 +29,11 @@ const CoinsList: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl w-full mx-auto py-8 px-4 flex gap-6">
-      <div className="overflow-hidden rounded-lg mb-8 w-3/4">
+    <div
+      className="max-w-7xl w-full mx-auto px-4  flex justify-between gap-4 min-h-screen"
+      style={{ minHeight: "calc(100vh - 10rem)" }}
+    >
+      <div className="overflow-hidden rounded-lg my-8  w-3/4">
         <Table className="w-full table-fixed">
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
@@ -74,7 +77,6 @@ const CoinsList: React.FC = () => {
           </TableBody>
         </Table>
       </div>
-
       <Favorites />
     </div>
   );
