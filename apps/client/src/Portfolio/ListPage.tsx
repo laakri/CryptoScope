@@ -5,17 +5,15 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { ButtonSmooth } from "@/components/ui/button-smooth";
-import { CommandDialog } from "cmdk";
 import CoinSearchDialog from "@/components/CoinSearch";
 import React from "react";
+import { CommandDialog } from "@/components/ui/command";
 
 interface Coin {
   name: string;
@@ -27,12 +25,12 @@ const initialCoins: Coin[] = [
   {
     name: "INV001",
     price: "$250.00",
-    targets: ["$100.00", "$200.00", "$300.00"],
+    targets: ["$50.00", "$200.00", "$200.00", "$200.00"],
   },
   {
     name: "INV002",
     price: "$150.00",
-    targets: ["$50.00", "$100.00", "$200.00"],
+    targets: ["$100.00", "$200.00", "$300.00"],
   },
 ];
 
