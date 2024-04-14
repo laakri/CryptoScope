@@ -3,7 +3,7 @@ import startedimg from "../assets/Lines/arrow.png";
 import circleimg from "../assets/Lines/circle-blue.png";
 import CoinSearchDialog from "@/components/CoinSearch";
 import targetlistimg from "../assets/Lines/image-removebg-preview (1).png";
-import { Command } from "cmdk";
+import { Command } from "@/components/ui/command";
 
 const CreateList: React.FC = () => {
   return (
