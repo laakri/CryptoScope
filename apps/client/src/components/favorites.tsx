@@ -8,7 +8,6 @@ import { Button } from "./ui/button";
 import arrowimg from "../assets/Lines/squi-arrow.png";
 import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
 import { Card } from "./ui/card";
-
 import { Reorder } from "framer-motion";
 
 const Favorites: React.FC = () => {
@@ -16,7 +15,7 @@ const Favorites: React.FC = () => {
 
   const removeFromFavorites = (coinId: string) => {
     setFavorites((prevFavorites) =>
-      prevFavorites.filter((coin) => coin.id !== coinId)
+      prevFavorites.filter((coin) => coin !== coinId)
     );
   };
 
@@ -69,7 +68,8 @@ const Favorites: React.FC = () => {
                     </div>
                     <Button
                       variant="link"
-                      onClick={() => removeFromFavorites(coin.id)}
+                      size={"icon"}
+                      onClick={() => removeFromFavorites(coin)}
                       className="hover:text-red-400 text-xl"
                     >
                       <MdOutlineRemoveCircle />

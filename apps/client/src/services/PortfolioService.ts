@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:4401/api";
 
-const addTargetTable = async (userId: string) => {
+export const addTargetTable = async (userId: string) => {
   try {
     const response = await axios.post(`${API_URL}/targetTables`, {
       userId,
@@ -13,5 +13,3 @@ const addTargetTable = async (userId: string) => {
     throw error;
   }
 };
-
-export { addTargetTable };

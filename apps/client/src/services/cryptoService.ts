@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 const API_URL = "http://localhost:4401/api";
 interface Coin {
   id: string;
