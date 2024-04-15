@@ -7,8 +7,12 @@ import {
 import { Button } from "./ui/button";
 import arrowimg from "../assets/Lines/squi-arrow.png";
 import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
+import { Card } from "./ui/card";
+
+import { Reorder } from "framer-motion";
+
 const Favorites: React.FC = () => {
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<any[]>([1, 2, 3, 4, 5]);
 
   const removeFromFavorites = (coinId: string) => {
     setFavorites((prevFavorites) =>
@@ -46,29 +50,34 @@ const Favorites: React.FC = () => {
               No favorite coins added yet.
             </div>
           ) : (
-            favorites.map((coin) => (
-              <div
-                key={coin.id}
-                className="flex items-center justify-between mb-2"
-              >
-                <div className="flex items-center gap-1">
-                  <p className="text-white font-medium ">{coin.name}</p>
-                  <p className={getColorClass(coin.price_change_24h)}>
-                    <p className="font-medium flex items-center gap-2 text-left">
-                      {coin.current_price}
-                      {getChangeIcon(coin.price_change_24h)}
-                    </p>
-                  </p>
-                </div>
-                <Button
-                  variant="link"
-                  onClick={() => removeFromFavorites(coin.id)}
-                  className="hover:text-red-400 text-xl"
-                >
-                  <MdOutlineRemoveCircle />
-                </Button>
-              </div>
-            ))
+            <Reorder.Group values={favorites} onReorder={setFavorites}>
+              {favorites.map((coin, index) => (
+                <Reorder.Item value={coin} key={coin}>
+                  <Card
+                    key={coin.id}
+                    className="flex rounded-sm items-center justify-between mb-2 pl-2"
+                  >
+                    <div className="flex items-center gap-1">
+                      <p>{index}</p>
+                      <p className="text-white font-medium ">Bitcoin</p>
+                      <p className={getColorClass(coin.price_change_24h)}>
+                        <p className="font-medium flex items-center gap-2 text-left">
+                          65,340
+                          {getChangeIcon(coin.price_change_24h)}
+                        </p>
+                      </p>
+                    </div>
+                    <Button
+                      variant="link"
+                      onClick={() => removeFromFavorites(coin.id)}
+                      className="hover:text-red-400 text-xl"
+                    >
+                      <MdOutlineRemoveCircle />
+                    </Button>
+                  </Card>
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
           )}
         </div>
       </div>

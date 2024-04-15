@@ -30,7 +30,7 @@ const initialCoins: Coin[] = [
   {
     name: "INV002",
     price: "$150.00",
-    targets: ["$100.00", "$200.00", "$300.00"],
+    targets: ["$100.00", "$200.00", "$300.00", ""],
   },
 ];
 
@@ -54,7 +54,7 @@ const ListPage: React.FC = () => {
   const addRow = () => {
     setCoins((prevCoins) => [
       ...prevCoins,
-      { name: "", price: "", targets: [""] },
+      { name: "", price: "", targets: Array(coins[0].targets.length).fill("") },
     ]);
   };
 
