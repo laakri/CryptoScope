@@ -5,7 +5,10 @@ const User = require("../models/user");
 
 router.post("/", async (req, res) => {
   try {
-    const { userId, coinId, order } = req.body;
+    const { userId, coinId } = req.body;
+
+    const totalFavoriteCoins = await FavoriteCoin.countDocuments({ userId });
+    const order = totalFavoriteCoins + 1;
 
     const favoriteCoin = new FavoriteCoin({ userId, coinId, order });
     await favoriteCoin.save();
@@ -47,6 +50,23 @@ router.delete("/:coinId", async (req, res) => {
     res.status(200).json({ message: "Favorite coin deleted successfully" });
   } catch (error) {
     console.error("Error deleting favorite coin:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+router.get("/userFavoriteCoins/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const favoriteCoins = await FavoriteCoin.find({ userId })
+      .populate({
+        path: "coinId",
+        select: "name price_change_24h current_price",
+      })
+      .sort({ order: 1 });
+
+    res.status(200).json(favoriteCoins);
+  } catch (error) {
+    console.error("Error getting favorite coins by user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

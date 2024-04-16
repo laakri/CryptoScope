@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MdOutlineRemoveCircle,
   MdTrendingDown,
@@ -9,14 +9,37 @@ import arrowimg from "../assets/Lines/squi-arrow.png";
 import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
 import { Card } from "./ui/card";
 import { Reorder } from "framer-motion";
+import {
+  DeleteFromFavorites,
+  getUserFavoriteCoins,
+} from "@/services/cryptoService";
 
 const Favorites: React.FC = () => {
-  const [favorites, setFavorites] = useState<any[]>([1, 2, 3, 4, 5]);
+  const [favorites, setFavorites] = useState<any[]>([]);
 
-  const removeFromFavorites = (coinId: string) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((coin) => coin !== coinId)
-    );
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const FAvCoins = await getUserFavoriteCoins();
+        setFavorites(FAvCoins);
+        console.log(FAvCoins);
+      } catch (error) {
+        console.error("Error fetching user's favorite coins:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  const removeFromFavorites = async (coinId: string) => {
+    try {
+      await DeleteFromFavorites(coinId);
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((coin) => coin._id !== coinId)
+      );
+    } catch (error) {
+      console.error("Error removing coin from favorites:", error);
+    }
   };
 
   const getColorClass = (change: number) => {
@@ -32,15 +55,15 @@ const Favorites: React.FC = () => {
   };
 
   return (
-    <div className=" min-w-[20rem] mt-4">
-      <div className="rounded-lg border min-h-72 max-h-max  ">
+    <div className="min-w-[20rem] mt-4">
+      <div className="rounded-lg border min-h-72 max-h-max">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2 justify-center">
-            <img src={arrowimg} alt="" className="h-7 " />
+            <img src={arrowimg} alt="" className="h-7" />
             Favorites Coins
           </h2>
           {favorites.length === 0 ? (
-            <div className="text-gray-400 text-center mt-12  flex flex-col items-center gap-2 ">
+            <div className="text-gray-400 text-center mt-12 flex flex-col items-center gap-2">
               <img
                 src={docnotfounimg}
                 alt="docnotfounimg"
@@ -50,26 +73,26 @@ const Favorites: React.FC = () => {
             </div>
           ) : (
             <Reorder.Group values={favorites} onReorder={setFavorites}>
-              {favorites.map((coin, index) => (
-                <Reorder.Item value={coin} key={coin}>
-                  <Card
-                    key={coin.id}
-                    className="flex rounded-sm items-center justify-between mb-2 pl-2"
-                  >
+              {favorites.map((coin) => (
+                <Reorder.Item key={coin._id} value={coin._id}>
+                  <Card className="flex rounded-sm items-center justify-between mb-2 pl-2">
                     <div className="flex items-center gap-1">
-                      <p>{index}</p>
-                      <p className="text-white font-medium ">Bitcoin</p>
-                      <p className={getColorClass(coin.price_change_24h)}>
-                        <p className="font-medium flex items-center gap-2 text-left">
-                          65,340
-                          {getChangeIcon(coin.price_change_24h)}
-                        </p>
+                      <p className="text-white font-medium">
+                        {coin.coinId.name}
+                      </p>
+                      <p
+                        className={getColorClass(coin.coinId.price_change_24h)}
+                      >
+                        <span className="font-medium flex items-center gap-2 text-left">
+                          {coin.coinId.current_price}
+                          {getChangeIcon(coin.coinId.price_change_24h)}
+                        </span>
                       </p>
                     </div>
                     <Button
                       variant="link"
                       size={"icon"}
-                      onClick={() => removeFromFavorites(coin)}
+                      onClick={() => removeFromFavorites(coin._id)}
                       className="hover:text-red-400 text-xl"
                     >
                       <MdOutlineRemoveCircle />
@@ -84,4 +107,5 @@ const Favorites: React.FC = () => {
     </div>
   );
 };
+
 export default Favorites;
