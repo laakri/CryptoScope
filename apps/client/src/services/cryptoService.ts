@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+const userId = "6617eb2a53cc5242b41221ea";
 const API_URL = "http://localhost:4401/api";
 interface Coin {
   _id: string;
@@ -30,7 +32,7 @@ interface Coin {
   last_updated: Date;
 }
 
-const useCryptoService = () => {
+export const useCryptoService = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
 
   useEffect(() => {
@@ -57,5 +59,34 @@ const useCryptoService = () => {
 
   return coins;
 };
-
-export default useCryptoService;
+export const addToFavorites = async (coinId: string) => {
+  const data = {
+    coinId,
+    userId,
+  };
+  try {
+    await axios.post(`${API_URL}/favoriteCoins`, data);
+    console.log("Coin added to favorites successfully");
+  } catch (error) {
+    console.error("Error adding coin to favorites:", error);
+  }
+};
+export const getUserFavoriteCoins = async () => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/favoriteCoins/userFavoriteCoins/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error getting user's favorite coins:", error);
+    return [];
+  }
+};
+export const DeleteFromFavorites = async (coinId: string) => {
+  try {
+    await axios.delete(`${API_URL}/favoriteCoins/${coinId}`);
+    console.log("Coin deleted from favorites successfully");
+  } catch (error) {
+    console.error("Error deleted coin from favorites:", error);
+  }
+};

@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useCryptoService from "@/services/cryptoService";
+import { useCryptoService, addToFavorites } from "@/services/cryptoService";
 import { FaRegStar } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Favorites from "@/components/favorites";
@@ -27,9 +27,10 @@ const CoinsList: React.FC = () => {
       <div>(${percentageChange.toFixed(2)}%)</div>
     );
   };
-  const addToFavorites = (coinId: string) => {
-    console.log("Adding coin to favorites:", coinId);
+  const addToFavoritess = async (coinId: string) => {
+    await addToFavorites(coinId);
   };
+
   return (
     <div
       className="max-w-7xl w-full mx-auto px-4  flex justify-between gap-4 min-h-screen"
@@ -55,7 +56,7 @@ const CoinsList: React.FC = () => {
                   <Button
                     className="hover:text-yellow-400 text-lg"
                     variant="link"
-                    onClick={() => addToFavorites(coin._id)}
+                    onClick={() => addToFavoritess(coin._id)}
                   >
                     <FaRegStar />
                   </Button>
