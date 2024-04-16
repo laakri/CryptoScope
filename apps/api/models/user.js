@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
     targetTables: [
       { type: mongoose.Schema.Types.ObjectId, ref: "TargetTable" },
     ],
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "FavoriteCoin" }],
   },
   { timestamps: true }
 );

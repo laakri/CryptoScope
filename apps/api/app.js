@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/user");
 const cryptoRoutes = require("./routes/crypto");
 const cryptoProfileRoutes = require("./routes/cryptoprofile");
+const favoriteCoinRoutes = require("./routes/favoriteCoin");
 
 const cors = require("cors");
 const app = express();
@@ -46,5 +47,6 @@ app.use((req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/cryptos", cryptoRoutes);
 app.use("/api/cryptosProfiles", cryptoProfileRoutes);
+app.use("/api/favoriteCoins", favoriteCoinRoutes);
 
 module.exports = app;
