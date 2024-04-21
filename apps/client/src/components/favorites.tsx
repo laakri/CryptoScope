@@ -13,23 +13,20 @@ import {
   DeleteFromFavorites,
   getUserFavoriteCoins,
 } from "@/services/cryptoService";
+import { useQuery } from "react-query";
 
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
+  const { data: FavData, isLoading: FavLoading } = useQuery(
+    "GetFavoriteCoins",
+    getUserFavoriteCoins
+  );
 
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const FAvCoins = await getUserFavoriteCoins();
-        setFavorites(FAvCoins);
-        console.log(FAvCoins);
-      } catch (error) {
-        console.error("Error fetching user's favorite coins:", error);
-      }
-    };
-
-    fetchFavorites();
-  }, []);
+    if (FavData) {
+      setFavorites(FavData);
+    }
+  }, [FavData]);
 
   const removeFromFavorites = async (coinId: string) => {
     try {
@@ -54,6 +51,10 @@ const Favorites: React.FC = () => {
     );
   };
 
+  const handleReorder = (newOrder: any[]) => {
+    setFavorites(newOrder);
+  };
+
   return (
     <div className="min-w-[20rem] mt-4">
       <div className="rounded-lg border min-h-72 max-h-max">
@@ -62,7 +63,9 @@ const Favorites: React.FC = () => {
             <img src={arrowimg} alt="" className="h-7" />
             Favorites Coins
           </h2>
-          {favorites.length === 0 ? (
+          {FavLoading ? (
+            "Loading..."
+          ) : FavData.length === 0 ? (
             <div className="text-gray-400 text-center mt-12 flex flex-col items-center gap-2">
               <img
                 src={docnotfounimg}
@@ -72,12 +75,13 @@ const Favorites: React.FC = () => {
               No favorite coins added yet.
             </div>
           ) : (
-            <Reorder.Group values={favorites} onReorder={setFavorites}>
-              {favorites.map((coin) => (
-                <Reorder.Item key={coin._id} value={coin._id}>
+            <Reorder.Group values={favorites} onReorder={handleReorder}>
+              {favorites.map((coin: any, index) => (
+                <Reorder.Item key={coin.id} value={coin.id}>
                   <Card className="flex rounded-sm items-center justify-between mb-2 pl-2">
                     <div className="flex items-center gap-1">
                       <p className="text-white font-medium">
+                        {index}
                         {coin.coinId.name}
                       </p>
                       <p
