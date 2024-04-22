@@ -17,6 +17,7 @@ import { useQuery } from "react-query";
 
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
+  const [active, setactive] = useState(0);
   const { data: FavData, isLoading: FavLoading } = useQuery(
     "GetFavoriteCoins",
     getUserFavoriteCoins
@@ -51,8 +52,9 @@ const Favorites: React.FC = () => {
     );
   };
 
-  const handleReorder = (newOrder: any[]) => {
+  const handleReorder = (newOrder: any) => {
     setFavorites(newOrder);
+    console.log(newOrder);
   };
 
   return (
@@ -77,7 +79,16 @@ const Favorites: React.FC = () => {
           ) : (
             <Reorder.Group values={favorites} onReorder={handleReorder}>
               {favorites.map((coin: any, index) => (
-                <Reorder.Item key={coin.id} value={coin.id}>
+                <Reorder.Item
+                  key={coin.id}
+                  value={coin.id}
+                  onDragStart={(e) => {
+                    setactive(index);
+                  }}
+                  onDragEnd={(e) => {
+                    setactive(index);
+                  }}
+                >
                   <Card className="flex rounded-sm items-center justify-between mb-2 pl-2">
                     <div className="flex items-center gap-1">
                       <p className="text-white font-medium">
