@@ -31,17 +31,33 @@ interface Coin {
   roi: any;
   last_updated: Date;
 }
-
-export const useCryptoService = () => {
-  const [coins, setCoins] = useState<Coin[]>([]);
+export interface CryptoData {
+  coins: Coin[];
+  totalPages: number;
+  totalCoins: number;
+}
+export const useCryptoService = (page: number, search: string): CryptoData => {
+  const [cryptoData, setCryptoData] = useState<CryptoData>({
+    coins: [],
+    totalPages: 0,
+    totalCoins: 0,
+  });
 
   useEffect(() => {
-    const source = new EventSource(`${API_URL}/cryptos/updates`);
+    const source = new EventSource(
+      `${API_URL}/cryptos/updates?page=${page}&search=${search}`
+    );
 
     source.onmessage = (event) => {
       try {
-        const updatedCoins: Coin[] = JSON.parse(event.data);
-        setCoins(updatedCoins);
+        const data = JSON.parse(event.data);
+        if (data.coins && Array.isArray(data.coins)) {
+          setCryptoData({
+            coins: data.coins,
+            totalPages: data.totalPages,
+            totalCoins: data.totalCoins,
+          });
+        }
       } catch (error) {
         console.error("Error parsing coin updates:", error);
       }
@@ -55,10 +71,11 @@ export const useCryptoService = () => {
     return () => {
       source.close();
     };
-  }, []);
+  }, [page, search]);
 
-  return coins;
+  return cryptoData;
 };
+
 export const addToFavorites = async (coinId: string) => {
   const data = {
     coinId,
@@ -88,5 +105,14 @@ export const DeleteFromFavorites = async (coinId: string) => {
     console.log("Coin deleted from favorites successfully");
   } catch (error) {
     console.error("Error deleted coin from favorites:", error);
+  }
+};
+export const getTopTrendingCoins = async (): Promise<Coin[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/cryptos/top-trending-coins`);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting top trending coins:", error);
+    return [];
   }
 };
