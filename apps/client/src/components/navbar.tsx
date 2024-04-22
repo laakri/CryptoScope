@@ -5,15 +5,25 @@ import Login from "@/Auth/Login";
 import SignUp from "@/Auth/SignUp";
 import { useUserStore } from "@/stores/user";
 import { MdLogout } from "react-icons/md";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import whitelogo from "../assets/Lines/X-line.png";
 import { Input } from "./ui/input";
+import { getTopTrendingCoins } from "@/services/cryptoService";
 
 function Navbar() {
   const { user, logout } = useUserStore();
   const isLoggedIn = localStorage.getItem("token") !== null;
   const logosRef = useRef<HTMLUListElement>(null);
+  const [topTrendingCoins, setTopTrendingCoins] = useState<any[]>([]);
 
+  useEffect(() => {
+    const fetchTopTrendingCoins = async () => {
+      const trendingCoins = await getTopTrendingCoins();
+      setTopTrendingCoins(trendingCoins);
+    };
+
+    fetchTopTrendingCoins();
+  }, []);
   useEffect(() => {
     if (logosRef.current) {
       let ul = logosRef.current;
@@ -106,30 +116,20 @@ function Navbar() {
           ref={logosRef}
           className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll"
         >
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
-          <li className="mx-4">
-            <p>BTCBTCBTC</p>
-          </li>
+          {topTrendingCoins.map((coin) => (
+            <li key={coin._id} className="flex mx-6 gap-2 items-center  ">
+              <img
+                src={coin.image}
+                alt={coin.symbol}
+                className="h-6 w-6  rounded-xl bg-white"
+              />
+              <div>{coin.symbol.toUpperCase()}</div>
+              <div>{coin.current_price.toFixed(2)}</div>
+              <div className=" text-green-400">
+                {coin.price_change_24h.toFixed(2)}%
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
