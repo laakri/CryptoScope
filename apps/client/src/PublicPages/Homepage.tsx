@@ -13,15 +13,17 @@ function HomePage() {
           Explore more with Crypto Scope more with Crypto Scope Explore more
           with Crypto Scope Explore more with Crypto Scope
         </p>
-        <div className=" relative max-w-96">
-          <Input type="text" placeholder="Search by Wallet address" />
-          <Button
-            type="submit"
-            variant="ghost"
-            className="absolute top-0 right-0"
-          >
-            <FaSearch />
-          </Button>
+        <div className="relative w-96 ">
+          <Input
+            type="text"
+            placeholder="Search For Coin by name"
+            className="h-10 rounded-2xl"
+          />
+          <p className="text-sm text-muted-foreground absolute top-2 right-2">
+            <Button className="h-6 rounded-lg border bg-muted hover:bg-slate-700 px-2 text-[10px] text-muted-foreground">
+              <FaSearch />
+            </Button>
+          </p>
         </div>
         <h1>Trending</h1>
         <div className="flex flex-wrap space-x-2  ">
