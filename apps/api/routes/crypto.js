@@ -40,32 +40,53 @@ router.get("/coin-prices", async (req, res) => {
 });
 
 // SSE endpoint to send real-time updates
-router.get("/updates", (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
+router.get("/updates", async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
 
-  const sendUpdates = async () => {
-    try {
-      const coins = await Crypto.find();
-      const data = JSON.stringify(coins);
-      res.write(`data: ${data}\n\n`);
-    } catch (error) {
-      console.error("Error sending updates:", error);
+    const { page = 0, search } = req.query;
+    const limit = 10;
+
+    let query = {};
+    if (search) {
+      query = {
+        $or: [{ name: { $regex: search, $options: "i" } }],
+      };
     }
-  };
 
-  // Send initial data to client
-  sendUpdates();
+    const totalCoins = await Crypto.countDocuments(query);
+    const totalPages = Math.ceil(totalCoins / limit);
 
-  // Send updates every 10 seconds
-  const intervalId = setInterval(sendUpdates, 10000);
+    const coins = await Crypto.find(query)
+      .skip(page * limit)
+      .limit(limit);
 
-  // Clean up on client disconnect
-  req.on("close", () => {
-    clearInterval(intervalId);
-    console.log("Client disconnected");
-  });
+    const data = JSON.stringify({ coins, totalCoins, totalPages });
+    res.write(`data: ${data}\n\n`);
+  } catch (error) {
+    console.error("Error sending updates:", error);
+  }
+});
+
+router.get("/top-trending-coins", async (req, res) => {
+  try {
+    const topTrendingCoins = await Crypto.find()
+      .sort({ price_change_24h: -1 })
+      .limit(16);
+
+    const simplifiedCoins = topTrendingCoins.map((coin) => ({
+      symbol: coin.symbol,
+      image: coin.image,
+      current_price: coin.current_price,
+      price_change_24h: coin.price_change_24h || 0,
+    }));
+
+    res.json(simplifiedCoins);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 module.exports = router;
