@@ -80,7 +80,7 @@ const Favorites: React.FC = () => {
             <Reorder.Group values={favorites} onReorder={handleReorder}>
               {favorites.map((coin: any, index) => (
                 <Reorder.Item
-                  key={coin.id}
+                  key={coin.index}
                   value={coin.id}
                   onDragStart={(e) => {
                     setactive(index);
