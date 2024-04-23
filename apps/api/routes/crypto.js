@@ -74,7 +74,7 @@ router.get("/top-trending-coins", async (req, res) => {
   try {
     const topTrendingCoins = await Crypto.find()
       .sort({ price_change_24h: -1 })
-      .limit(16);
+      .limit(8);
 
     const simplifiedCoins = topTrendingCoins.map((coin) => ({
       symbol: coin.symbol,

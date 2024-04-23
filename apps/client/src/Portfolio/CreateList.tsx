@@ -8,14 +8,13 @@ import { Command } from "@/components/ui/command";
 const CreateList: React.FC = () => {
   return (
     <div className="mx-8 my-6">
-      <h1 className="text-4xl">Create new List</h1>
-      <img src={startedimg} alt="chlak-image" className="h-8" />
-      <div>
+      <div className="mb-6">
         <Input
           placeholder="Enter list name here..."
           className="h-24 placeholder-gray-400 placeholder:text-3xl text-3xl border-none"
           style={{ boxShadow: "none" }}
         ></Input>
+        <img src={startedimg} alt="chlak-image" className="h-8" />
       </div>
       <div className="space-y-6 mt-4">
         <div className="text-2xl flex gap-4 ">
@@ -34,7 +33,7 @@ const CreateList: React.FC = () => {
         </Command>
 
         <div className="text-2xl flex gap-4 text-gray-200 ">
-          Exemple of Coins List
+          Exemple of Coins List !
         </div>
         <img src={targetlistimg} alt="targetlistimg" />
       </div>

@@ -6,8 +6,28 @@ import { Button } from "@/components/ui/button";
 import { FaPlus, FaRegStar } from "react-icons/fa";
 import { Link, Outlet } from "react-router-dom";
 import { ButtonSmooth } from "@/components/ui/button-smooth";
+import { getTargetTablesByUserId } from "@/services/PortfolioService";
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/stores/user";
 
 const Portfolio: React.FC = () => {
+  const [targetTables, setTargetTables] = useState<any[]>([]);
+  const { user } = useUserStore();
+
+  useEffect(() => {
+    const fetchTargetTables = async () => {
+      try {
+        if (user) {
+          const data = await getTargetTablesByUserId(user?.userId);
+          setTargetTables(data);
+        }
+      } catch (error) {
+        console.error("Error fetching target tables:", error);
+      }
+    };
+
+    fetchTargetTables();
+  }, []);
   return (
     <div
       className="max-w-7xl w-full mx-auto px-4  flex justify-between gap-4 min-h-screen"
@@ -77,12 +97,20 @@ const Portfolio: React.FC = () => {
           </Link>
 
           <div className="px-1 flex flex-col gap-1">
-            <div className="flex items-center gap-1">
-              <MdKeyboardArrowRight />
-              <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer ">
-                Solana Coins
-              </p>
-            </div>
+            {targetTables ? (
+              targetTables.map((table) => (
+                <Link to={`list/${table._id}`} key={table._id}>
+                  <div className="flex items-center gap-1">
+                    <MdKeyboardArrowRight />
+                    <p className="text-gray-400 hover:text-gray-100 hover:cursor-pointer">
+                      {table.name}
+                    </p>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div>now data </div>
+            )}
           </div>
         </div>
 

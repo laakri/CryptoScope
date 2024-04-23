@@ -1,11 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { addTargetTable } from "@/services/PortfolioService";
+import { useUserStore } from "@/stores/user";
 import { FaSearch } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ListTable: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useUserStore();
+
+  const handleCreateNewList = async () => {
+    try {
+      if (user) {
+        const response = await addTargetTable(user?.userId);
+
+        console.log(
+          response.user.targetTables[response.user.targetTables.length - 1]
+        );
+
+        navigate(
+          `/Portfolio/list/${
+            response.user.targetTables[response.user.targetTables.length - 1]
+          }`
+        );
+      }
+    } catch (error) {
+      console.error("Error creating target table:", error);
+    }
+  };
   return (
     <div className="mx-8 my-6 flex flex-col items-center justify-center">
       <h1 className="text-4xl">List of Tables</h1>
@@ -36,14 +60,14 @@ const ListTable: React.FC = () => {
         </div>
         <div className="flex flex-col justify-center items-center gap-2 w-full py-2 px-2 rounded-md border">
           <p className="text-gray-400">No list created yet</p>
-          <Link to="/Portfolio/list/66">
-            <Button
-              variant="ghost"
-              className="h-6 px-2 bg-muted hover:bg-slate-700 text-[16px]  "
-            >
-              <IoMdAdd />
-            </Button>
-          </Link>
+
+          <Button
+            variant="ghost"
+            className="h-6 px-2 bg-muted hover:bg-slate-700 text-[16px]"
+            onClick={handleCreateNewList}
+          >
+            <IoMdAdd />
+          </Button>
         </div>
       </div>
     </div>

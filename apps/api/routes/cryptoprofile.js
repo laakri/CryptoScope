@@ -4,7 +4,7 @@ const TargetTable = require("../models/targetTable");
 const User = require("../models/user");
 
 // Route to create a new target table for a user
-router.post("/targetTables", async (req, res) => {
+router.post("/CreateNewList", async (req, res) => {
   try {
     const { userId } = req.body;
 
@@ -25,8 +25,27 @@ router.post("/targetTables", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+// Route to get list of target tables by user ID
+router.get("/:userId/targetTables", async (req, res) => {
+  try {
+    const { userId } = req.params;
 
-// Route to edit the name of a target table
+    // Find the user and populate their targetTables
+    const user = await User.findById(userId).populate(
+      "targetTables",
+      "_id name"
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.targetTables);
+  } catch (error) {
+    console.error("Error getting target tables by user ID:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 router.patch("/:userId/targetTables/:targetTableId", async (req, res) => {
   try {
     const { name } = req.body;
