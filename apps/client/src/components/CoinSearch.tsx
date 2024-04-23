@@ -10,12 +10,11 @@ import {
 } from "@/components/ui/command";
 import { TiPlus } from "react-icons/ti";
 import { getCoinSuggestions, searchCoins } from "@/services/PortfolioService";
-import { debounce } from "lodash";
 
 const CoinSearchDialog: React.FC = () => {
   const [suggestions, setSuggestions] = React.useState<any>([]);
   const [trendings, setTrendings] = React.useState<any>([]);
-  const [seachedData, setSearchedData] = React.useState<any>([]);
+  const [searchedData, setSearchedData] = React.useState<any>([]);
   const [loading, setLoading] = React.useState(true);
   const [searching, setSearching] = React.useState(false);
 
@@ -48,12 +47,6 @@ const CoinSearchDialog: React.FC = () => {
     );
   };
 
-  const debounceDelay = 300; // Adjust this value as needed
-
-  const debouncedSearch = debounce((query: string) => {
-    handleSearch(query);
-  }, debounceDelay);
-
   const handleSearch = async (query: string) => {
     try {
       setSearching(query !== "");
@@ -65,8 +58,8 @@ const CoinSearchDialog: React.FC = () => {
     }
   };
 
-  const debouncedHandleSearch = (query: string) => {
-    debouncedSearch(query);
+  const handleCoinClick = (id: string) => {
+    console.log("Clicked item _id:", id);
   };
 
   return (
@@ -79,19 +72,23 @@ const CoinSearchDialog: React.FC = () => {
         <CommandList>
           {loading ? (
             <div>Loading...</div>
-          ) : seachedData.length === 0 ? (
+          ) : searchedData.length === 0 ? (
             <CommandEmpty>No results found.</CommandEmpty>
           ) : (
             <>
               <CommandGroup heading="Suggestions">
-                {seachedData.map((coin: any) => (
-                  <CommandItem key={coin.name}>
+                {searchedData.map((coin: any) => (
+                  <CommandItem
+                    className="hover:cursor-pointer"
+                    key={coin._id}
+                    onClick={() => handleCoinClick(coin._id)}
+                  >
                     <img
                       src={coin.image}
                       alt={coin.name}
                       className="mr-2 h-4 w-4"
                     />
-                    <span className="mr-2 ">{coin.name}</span>
+                    <span className="mr-2">{coin.name}</span>
                     <div className={getColorClass(coin.price_change_24h)}>
                       {getChangePercentage(
                         coin.price_change_24h,
@@ -117,13 +114,17 @@ const CoinSearchDialog: React.FC = () => {
             <>
               <CommandGroup heading="Suggestions">
                 {suggestions.map((coin: any) => (
-                  <CommandItem key={coin.name}>
+                  <CommandItem
+                    className="hover:cursor-pointer"
+                    key={coin._id}
+                    onClick={() => handleCoinClick(coin._id)}
+                  >
                     <img
                       src={coin.image}
                       alt={coin.name}
                       className="mr-2 h-4 w-4"
                     />
-                    <span className="mr-2 ">{coin.name}</span>
+                    <span className="mr-2">{coin.name}</span>
                     <div className={getColorClass(coin.price_change_24h)}>
                       {getChangePercentage(
                         coin.price_change_24h,
@@ -139,14 +140,22 @@ const CoinSearchDialog: React.FC = () => {
               <CommandSeparator />
               <CommandGroup heading="Trending Coins">
                 {trendings.map((coin: any) => (
-                  <CommandItem key={coin.name}>
+                  <CommandItem
+                    className="hover:cursor-pointer"
+                    key={coin._id}
+                    onClick={() => handleCoinClick(coin._id)}
+                  >
                     <img
                       src={coin.image}
                       alt={coin.name}
-                      className="mr-2 h-4 w-4"
+                      className="mr-2 h-4 w-4 cursor-pointer"
                     />
-                    <span className="mr-2 ">{coin.name}</span>
-                    <div className={getColorClass(coin.price_change_24h)}>
+                    <span className="mr-2 cursor-pointer">{coin.name}</span>
+                    <div
+                      className={`${getColorClass(
+                        coin.price_change_24h
+                      )} cursor-pointer`}
+                    >
                       {getChangePercentage(
                         coin.price_change_24h,
                         coin.current_price
