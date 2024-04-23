@@ -18,8 +18,25 @@ function Navbar() {
 
   useEffect(() => {
     const fetchTopTrendingCoins = async () => {
+      let cachedData = localStorage.getItem("topTrendingCoins");
+      let cachedTime = localStorage.getItem("topTrendingCoinsTime");
+      if (cachedData && cachedTime) {
+        const parsedData = JSON.parse(cachedData);
+        const currentTime = new Date().getTime();
+        const timeDiff = (currentTime - parseInt(cachedTime)) / (1000 * 60); // Difference in minutes
+        if (timeDiff <= 20) {
+          setTopTrendingCoins(parsedData);
+          return;
+        }
+      }
       const trendingCoins = await getTopTrendingCoins();
       setTopTrendingCoins(trendingCoins);
+
+      localStorage.setItem("topTrendingCoins", JSON.stringify(trendingCoins));
+      localStorage.setItem(
+        "topTrendingCoinsTime",
+        new Date().getTime().toString()
+      );
     };
 
     fetchTopTrendingCoins();
@@ -118,6 +135,20 @@ function Navbar() {
         >
           {topTrendingCoins.map((coin) => (
             <li key={coin._id} className="flex mx-6 gap-2 items-center  ">
+              <img
+                src={coin.image}
+                alt={coin.symbol}
+                className="h-6 w-6  rounded-xl bg-white"
+              />
+              <div>{coin.symbol.toUpperCase()}</div>
+              <div>{coin.current_price.toFixed(2)}</div>
+              <div className=" text-green-400">
+                {coin.price_change_24h.toFixed(2)}%
+              </div>
+            </li>
+          ))}{" "}
+          {topTrendingCoins.map((coin, index) => (
+            <li key={index} className="flex mx-6 gap-2 items-center  ">
               <img
                 src={coin.image}
                 alt={coin.symbol}
