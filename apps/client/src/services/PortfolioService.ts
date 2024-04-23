@@ -23,3 +23,38 @@ export const getTargetTablesByUserId = async (userId: string) => {
     throw error;
   }
 };
+export const updateTargetTableName = async (
+  userId: string,
+  targetTableId: string,
+  name: string
+) => {
+  try {
+    const response = await axios.patch(
+      `${API_URL}/${userId}/targetTables/${targetTableId}`,
+      { name }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating target table name:", error);
+    throw error;
+  }
+};
+export const getCoinSuggestions = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/coins/suggestions`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching coin suggestions:", error);
+    throw error;
+  }
+};
+
+export const searchCoins = async (query: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/coins/search?query=${query}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error searching for coins:", error);
+    throw error;
+  }
+};

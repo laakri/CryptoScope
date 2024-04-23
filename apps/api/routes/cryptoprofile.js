@@ -51,12 +51,68 @@ router.patch("/:userId/targetTables/:targetTableId", async (req, res) => {
     const { name } = req.body;
     const { userId, targetTableId } = req.params;
 
+    // Check if the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user owns the target table
+    if (!user.targetTables.includes(targetTableId)) {
+      return res
+        .status(403)
+        .json({ message: "User does not own the target table" });
+    }
+
     // Update the name of the target table
     await TargetTable.findByIdAndUpdate(targetTableId, { name });
 
     res.json({ message: "Target table name updated" });
   } catch (error) {
     console.error("Error updating target table name:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+// Route to get suggestions for coins
+router.get("/coins/suggestions", async (req, res) => {
+  try {
+    // Fetch top 3 big coins with only name, image, and current price fields
+    const topBigCoins = await Crypto.find(
+      {},
+      { name: 1, image: 1, current_price: 1 }
+    )
+      .sort({ market_cap_rank: 1 })
+      .limit(3);
+
+    // Fetch trending coins with only name, image, and current price fields
+    const trendingCoins = await Crypto.find(
+      {},
+      { name: 1, image: 1, current_price: 1 }
+    )
+      .sort({ price_change_percentage_24h: -1 })
+      .limit(2);
+
+    res.json({ topBigCoins, trendingCoins });
+  } catch (error) {
+    console.error("Error fetching coin suggestions:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Route to search for coins by name
+router.get("/coins/search", async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const regex = new RegExp(query, "i");
+    const searchResults = await Crypto.find(
+      { name: regex },
+      { name: 1, image: 1, current_price: 1 }
+    ).limit(10);
+
+    res.json(searchResults);
+  } catch (error) {
+    console.error("Error searching for coins:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
