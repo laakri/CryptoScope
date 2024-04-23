@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const TargetTable = require("../models/targetTable");
 const User = require("../models/user");
+const Crypto = require("../models/crypto");
 
 // Route to create a new target table for a user
 router.post("/CreateNewList", async (req, res) => {
@@ -76,18 +77,16 @@ router.patch("/:userId/targetTables/:targetTableId", async (req, res) => {
 // Route to get suggestions for coins
 router.get("/coins/suggestions", async (req, res) => {
   try {
-    // Fetch top 3 big coins with only name, image, and current price fields
     const topBigCoins = await Crypto.find(
       {},
-      { name: 1, image: 1, current_price: 1 }
+      { name: 1, image: 1, current_price: 1, price_change_24h: 1 }
     )
       .sort({ market_cap_rank: 1 })
       .limit(3);
 
-    // Fetch trending coins with only name, image, and current price fields
     const trendingCoins = await Crypto.find(
       {},
-      { name: 1, image: 1, current_price: 1 }
+      { name: 1, image: 1, current_price: 1, price_change_24h: 1 }
     )
       .sort({ price_change_percentage_24h: -1 })
       .limit(2);
@@ -107,7 +106,7 @@ router.get("/coins/search", async (req, res) => {
     const regex = new RegExp(query, "i");
     const searchResults = await Crypto.find(
       { name: regex },
-      { name: 1, image: 1, current_price: 1 }
+      { name: 1, image: 1, current_price: 1, price_change_24h: 1 }
     ).limit(10);
 
     res.json(searchResults);

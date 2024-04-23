@@ -16,7 +16,7 @@ const CreateList: React.FC = () => {
 
   const { user } = useUserStore();
   const { id } = useParams<{ id: string }>();
-  const [step1, setStep1] = useState(true);
+  const [step1, setStep1] = useState(false);
   const [step2, setStep2] = useState(false);
   const [listName, setListName] = useState("");
 
