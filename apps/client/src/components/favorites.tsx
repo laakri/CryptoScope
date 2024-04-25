@@ -7,14 +7,19 @@ import {
 import { Button } from "./ui/button";
 import arrowimg from "../assets/Lines/squi-arrow.png";
 import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
-import { Card } from "./ui/card";
 import { Reorder } from "framer-motion";
 import {
   DeleteFromFavorites,
   getUserFavoriteCoins,
 } from "@/services/cryptoService";
 import { useQuery } from "react-query";
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [active, setactive] = useState(0);
@@ -58,8 +63,8 @@ const Favorites: React.FC = () => {
   };
 
   return (
-    <div className="min-w-[20rem] mt-4">
-      <div className="rounded-lg border min-h-72 max-h-max">
+    <div className="min-w-[20rem] w-[20rem] mt-4  hidden lg:block">
+      <div className="rounded-xl border min-h-24 max-h-max mb-2">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2 justify-center">
             <img src={arrowimg} alt="" className="h-7" />
@@ -68,7 +73,7 @@ const Favorites: React.FC = () => {
           {FavLoading ? (
             "Loading..."
           ) : FavData.length === 0 ? (
-            <div className="text-gray-400 text-center mt-12 flex flex-col items-center gap-2">
+            <div className="text-gray-400 text-center mt-12 mb-12 flex flex-col items-center gap-2">
               <img
                 src={docnotfounimg}
                 alt="docnotfounimg"
@@ -80,7 +85,7 @@ const Favorites: React.FC = () => {
             <Reorder.Group values={favorites} onReorder={handleReorder}>
               {favorites.map((coin: any, index) => (
                 <Reorder.Item
-                  key={coin.index}
+                  key={`${coin._id}-${index}`}
                   value={coin.id}
                   onDragStart={(e) => {
                     setactive(index);
@@ -92,7 +97,6 @@ const Favorites: React.FC = () => {
                   <Card className="flex rounded-sm items-center justify-between mb-2 pl-2">
                     <div className="flex items-center gap-1">
                       <p className="text-white font-medium">
-                        {index}
                         {coin.coinId.name}
                       </p>
                       <p
@@ -119,6 +123,19 @@ const Favorites: React.FC = () => {
           )}
         </div>
       </div>
+      <Card>
+        <CardHeader className="p-2 pt-0 md:p-4">
+          <CardTitle>Upgrade to Pro</CardTitle>
+          <CardDescription>
+            Unlock all features and get unlimited access to our support team.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+          <Button size="sm" className="w-full">
+            Upgrade
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 };
