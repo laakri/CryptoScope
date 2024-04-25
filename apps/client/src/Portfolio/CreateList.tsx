@@ -16,7 +16,7 @@ const CreateList: React.FC = () => {
 
   const { user } = useUserStore();
   const { id } = useParams<{ id: string }>();
-  const [step1, setStep1] = useState(false);
+  const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [listName, setListName] = useState("");
 
@@ -56,7 +56,11 @@ const CreateList: React.FC = () => {
   return (
     <div className="mx-8 my-6">
       <div className="relative">
-        <div className={`space-y-6 mt-4 ${step1 ? "blur-md" : ""}`}>
+        <div
+          className={`space-y-6 mt-4 ${
+            step1 ? "blur-md pointer-events-none" : ""
+          }`}
+        >
           <h1
             className=" placeholder-gray-400 placeholder:text-3xl text-3xl border-none"
             style={{ boxShadow: "none" }}
@@ -79,7 +83,7 @@ const CreateList: React.FC = () => {
           </Command>
 
           <div className="text-2xl flex gap-4 text-gray-200 ">
-            Example of Coins List!
+            Example of Coins List !
           </div>
           <img src={targetlistimg} alt="targetlistimg" />
         </div>

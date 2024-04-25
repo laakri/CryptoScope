@@ -58,3 +58,31 @@ export const searchCoins = async (query: string) => {
     throw error;
   }
 };
+export const addCoinToTargetTable = async (
+  userId: string,
+  targetTableId: string,
+  name: string,
+  isExistingCoin: boolean,
+  price?: number
+) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/${userId}/targetTables/${targetTableId}/addCoin`,
+      { name, price, isExistingCoin }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding coin to target table:", error);
+    throw error;
+  }
+};
+export const getTargetTableById = async (targetTableId: string) => {
+  try {
+    // Make an HTTP GET request to fetch the target table by ID
+    const response = await axios.get(`${API_URL}/${targetTableId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching target table by ID:", error);
+    throw error;
+  }
+};

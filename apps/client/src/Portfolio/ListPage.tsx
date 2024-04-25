@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaPlus, FaSearch } from "react-icons/fa";
@@ -12,31 +12,22 @@ import {
 } from "@/components/ui/table";
 import { ButtonSmooth } from "@/components/ui/button-smooth";
 import CoinSearchDialog from "@/components/CoinSearch";
-import React from "react";
 import { CommandDialog } from "@/components/ui/command";
-
+import { useParams } from "react-router-dom";
+import { getTargetTableById } from "@/services/PortfolioService";
+import horLine from "../assets/Lines/hor-line.png";
 interface Coin {
   name: string;
-  price: string;
+  price: number;
   targets: string[];
 }
 
-const initialCoins: Coin[] = [
-  {
-    name: "INV001",
-    price: "$250.00",
-    targets: ["$50.00", "$200.00", "$200.00", "$200.00"],
-  },
-  {
-    name: "INV002",
-    price: "$150.00",
-    targets: ["$100.00", "$200.00", "$300.00", ""],
-  },
-];
-
 const ListPage: React.FC = () => {
-  const [coins, setCoins] = useState<Coin[]>(initialCoins);
-  const [open, setOpen] = React.useState(false);
+  const { id } = useParams<{ id: string }>();
+  const [coins, setCoins] = useState<Coin[]>([]);
+  const [listName, setListName] = useState<string>("Loading");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const toggleDialog = () => {
     setOpen((open) => !open);
@@ -54,7 +45,11 @@ const ListPage: React.FC = () => {
   const addRow = () => {
     setCoins((prevCoins) => [
       ...prevCoins,
-      { name: "", price: "", targets: Array(coins[0].targets.length).fill("") },
+      {
+        name: "",
+        price: 0,
+        targets: Array(coins.length > 0 ? coins[0].targets.length : 0).fill(""),
+      },
     ]);
   };
 
@@ -76,10 +71,29 @@ const ListPage: React.FC = () => {
     );
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        if (id) {
+          const { targetTableName, coins } = await getTargetTableById(id);
+          setCoins(coins);
+          setListName(targetTableName);
+        }
+      } catch (error) {
+        console.error("Error fetching target table:", error);
+        // Handle error
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [id]);
+
   return (
     <>
       <div className="my-6 flex flex-col items-center justify-center">
-        <h1 className="text-4xl">Solana Coins List</h1>
+        <h1 className="text-4xl">{listName}</h1>
         <div className=" relative w-96 mt-6">
           <Input
             type="text"
@@ -93,51 +107,60 @@ const ListPage: React.FC = () => {
           </p>
         </div>
         <div className=" flex flex-col mt-6 w-full p-4 gap-2 ">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Coin</TableHead>
-                <TableHead>Price</TableHead>
-                {coins[0].targets.map((_, index) => (
-                  <TableHead key={index}>Target {index + 1}</TableHead>
-                ))}
-                <TableHead>
-                  <ButtonSmooth className="text-[11px]" onClick={addColumn}>
-                    <FaPlus />
-                  </ButtonSmooth>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {coins.map((coin, rowIndex) => (
-                <TableRow key={coin.name}>
-                  <TableCell className="font-medium">{coin.name}</TableCell>
-                  <TableCell>{coin.price}</TableCell>
-                  {coin.targets.map((target, targetIndex) => (
-                    <TableCell key={targetIndex}>
-                      <Input
-                        type="text"
-                        value={target}
-                        onChange={(e) =>
-                          handleTargetChange(e, rowIndex, targetIndex)
-                        }
-                      />
-                    </TableCell>
+          {loading ? (
+            <div className="flex justify-center items-center w-full h-36 ">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-50"></div>
+            </div>
+          ) : (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Coin</TableHead>
+                    <TableHead>Price</TableHead>
+                    {coins.length > 0 &&
+                      coins[0].targets.map((_, index) => (
+                        <TableHead key={index}>Target {index + 1}</TableHead>
+                      ))}
+                    <TableHead>
+                      <ButtonSmooth className="text-[11px]" onClick={addColumn}>
+                        <FaPlus />
+                      </ButtonSmooth>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {coins.map((coin, rowIndex) => (
+                    <TableRow key={coin.name}>
+                      <TableCell className="font-medium">{coin.name}</TableCell>
+                      <TableCell>
+                        {coin.price == 0 ? (
+                          <img src={horLine} alt="horLine" className="w-8" />
+                        ) : (
+                          coin.price
+                        )}
+                      </TableCell>
+                      {coin.targets.map((target, targetIndex) => (
+                        <TableCell key={targetIndex}>
+                          <Input
+                            type="text"
+                            value={target}
+                            onChange={(e) =>
+                              handleTargetChange(e, rowIndex, targetIndex)
+                            }
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
                   ))}
-                </TableRow>
-              ))}
-              {/* <TableRow>
-                <TableCell colSpan={2}>
-                  <ButtonSmooth className="text-[11px]" onClick={toggleDialog}>
-                    <FaPlus />
-                  </ButtonSmooth>
-                </TableCell>
-              </TableRow> */}
-            </TableBody>
-          </Table>
-          <ButtonSmooth className="text-[11px] " onClick={toggleDialog}>
-            <FaPlus />
-          </ButtonSmooth>
+                </TableBody>
+              </Table>
+              <ButtonSmooth className="text-[11px] " onClick={toggleDialog}>
+                <FaPlus />
+              </ButtonSmooth>
+            </>
+          )}
           <CommandDialog open={open} onOpenChange={setOpen}>
             <CoinSearchDialog />
           </CommandDialog>
