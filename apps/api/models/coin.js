@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
 
 const coinSchema = new mongoose.Schema({
-  // For existing coins from the database
   existingCoin: { type: mongoose.Schema.Types.ObjectId, ref: "Crypto" },
-  // For custom coins entered by the user
   customCoin: {
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
+    name: { type: String },
+    price: { type: Number },
+  },
+  isExistingCoin: { type: Boolean, default: false },
+  targets: {
+    type: [
+      {
+        value: String,
+        hit: { type: Boolean, default: false },
+      },
+    ],
+    default: [],
   },
 });
 
