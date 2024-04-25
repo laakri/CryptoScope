@@ -133,22 +133,11 @@ function Navbar() {
           ref={logosRef}
           className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll"
         >
-          {topTrendingCoins.map((coin) => (
-            <li key={coin._id} className="flex mx-6 gap-2 items-center  ">
-              <img
-                src={coin.image}
-                alt={coin.symbol}
-                className="h-6 w-6  rounded-xl bg-white"
-              />
-              <div>{coin.symbol.toUpperCase()}</div>
-              <div>{coin.current_price.toFixed(2)}</div>
-              <div className=" text-green-400">
-                {coin.price_change_24h.toFixed(2)}%
-              </div>
-            </li>
-          ))}{" "}
           {topTrendingCoins.map((coin, index) => (
-            <li key={index} className="flex mx-6 gap-2 items-center  ">
+            <li
+              key={`${coin._id}-${index}`}
+              className="flex mx-6 gap-2 items-center  "
+            >
               <img
                 src={coin.image}
                 alt={coin.symbol}
