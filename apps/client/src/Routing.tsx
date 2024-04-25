@@ -19,7 +19,7 @@ function App() {
         <Route path="GeneralIdea" element={<GeneralIdea />} />
         <Route path="List/:id" element={<CreateList />} />
         <Route path="List" element={<ListTable />} />
-        <Route path="ListPage" element={<ListPage />} />
+        <Route path="ListPage/:id" element={<ListPage />} />
       </Route>
     </Routes>
   );
