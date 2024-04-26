@@ -42,16 +42,16 @@ const ListPage: React.FC = () => {
     );
   };
 
-  const addRow = () => {
-    setCoins((prevCoins) => [
-      ...prevCoins,
-      {
-        name: "",
-        price: 0,
-        targets: Array(coins.length > 0 ? coins[0].targets.length : 0).fill(""),
-      },
-    ]);
-  };
+  // const addRow = () => {
+  //   setCoins((prevCoins) => [
+  //     ...prevCoins,
+  //     {
+  //       name: "",
+  //       price: 0,
+  //       targets: Array(coins.length > 0 ? coins[0].targets.length : 0).fill(""),
+  //     },
+  //   ]);
+  // };
 
   const handleTargetChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -123,7 +123,10 @@ const ListPage: React.FC = () => {
                         <TableHead key={index}>Target {index + 1}</TableHead>
                       ))}
                     <TableHead>
-                      <ButtonSmooth className="text-[11px]" onClick={addColumn}>
+                      <ButtonSmooth
+                        className="text-[11px] "
+                        onClick={addColumn}
+                      >
                         <FaPlus />
                       </ButtonSmooth>
                     </TableHead>
