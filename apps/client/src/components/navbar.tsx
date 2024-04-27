@@ -9,6 +9,9 @@ import { useEffect, useRef, useState } from "react";
 import whitelogo from "../assets/Lines/X-line.png";
 import { Input } from "./ui/input";
 import { getTopTrendingCoins } from "@/services/cryptoService";
+import { FaBell } from "react-icons/fa";
+import { MdOutlineLightMode } from "react-icons/md";
+import { ModeToggle } from "./mode-toggle";
 
 function Navbar() {
   const { user, logout } = useUserStore();
@@ -57,7 +60,7 @@ function Navbar() {
     <div className="sticky top-0 left-0 w-full z-50 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2 border-b">
       <div className="py-3 px-1 border-b">
         <div className="max-w-screen-2xl mx-auto flex justify-between items-center">
-          <Link to="/" className="text-gray-300">
+          <Link to="/" className="">
             <Button variant="link" className="flex items-center gap-2 font-4 ">
               {/* <TfiTarget className="text-xl text-gray-200" /> */}
               <img src={whitelogo} alt="white-logo" className="w-6" />
@@ -68,7 +71,7 @@ function Navbar() {
             <Input
               type="text"
               placeholder="Search For User | Something else"
-              className="h-7.5"
+              className="h-7.5 "
             />
             <p className="text-sm text-muted-foreground absolute top-1 right-1.5">
               <kbd className="pointer-events-none inline-flex ml-2 h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
@@ -77,23 +80,26 @@ function Navbar() {
             </p>
           </div>
           <div className="flex items-center gap-4 ">
-            <div>
-              <Link to="/CoinsList" className="text-gray-300">
-                <Button variant="ghost" className=" text-gray-300">
+            <div className="flex items-center gap-1">
+              <Link to="/CoinsList" className="">
+                <Button variant="ghost" className=" ">
                   Coins
                 </Button>
               </Link>
-              <Link to="/Portfolio" className="text-gray-300">
-                <Button variant="ghost" className=" text-gray-300">
+              <Link to="/Portfolio" className="">
+                <Button variant="ghost" className=" ">
                   Portfolio
                 </Button>
               </Link>
-              <Button variant="ghost" className=" text-gray-300">
-                Documentation
+              <Link to="/Documentation" className="">
+                <Button variant="ghost" className=" ">
+                  Documentation
+                </Button>
+              </Link>
+              <Button variant="outline" size={"icon"} className="  ">
+                <FaBell />
               </Button>
-              <Button variant="ghost" className=" text-gray-300">
-                Informations
-              </Button>
+              <ModeToggle />
             </div>
             {!isLoggedIn ? (
               <div className="flex gap-1">
@@ -112,7 +118,7 @@ function Navbar() {
               </div>
             ) : (
               <div className="flex gap-1">
-                <Button variant="secondary">
+                <Button variant="link">
                   <p>{user ? user.userName : "User Name"}</p>
                 </Button>
 

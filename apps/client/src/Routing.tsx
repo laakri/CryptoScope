@@ -7,12 +7,14 @@ import GeneralIdea from "./Portfolio/GeneralIdea";
 import CreateList from "./Portfolio/CreateList";
 import ListTable from "./Portfolio/ListTable";
 import ListPage from "./Portfolio/ListPage";
+import Documentation from "./PublicPages/Documentaion";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/CoinsList" element={<CoinsList />} />
+      <Route path="/Documentation" element={<Documentation />} />
       <Route path="/Portfolio" element={<Portfolio />}>
         <Route path="" element={<StartingSection />} />
         <Route path="Started" element={<StartingSection />} />

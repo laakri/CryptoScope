@@ -14,7 +14,7 @@ function HomePage() {
           <h1 className="text-7xl max-w-[46rem] text-center">
             Explore more with Crypto Scope
           </h1>
-          <p className="text-gray-300  max-w-[32rem] text-center ">
+          <p className="text-gray  max-w-[32rem] text-center ">
             Explore more with Crypto Scope more with Crypto Scope Explore more
             with Crypto Scope Explore more with Crypto Scope
           </p>
@@ -30,20 +30,18 @@ function HomePage() {
               </Button>
             </p>
           </div>
-          <h1>Trending</h1>
+          <h1>Top Coins</h1>
           <div className="flex flex-wrap space-x-2  ">
-            <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            <div className="border  p-2 max-w-max rounded-xl ">
               BTC $69,335.05
             </div>
-            <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            <div className="border  p-2 max-w-max rounded-xl ">
               ETH $3,521.91
             </div>
-            <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
+            <div className="border  p-2 max-w-max rounded-xl ">
               Solana $0.05981
             </div>
-            <div className="border-2 border-gray-900 p-2 max-w-max rounded-xl ">
-              MAGIC $1.05
-            </div>
+            <div className="border  p-2 max-w-max rounded-xl ">MAGIC $1.05</div>
           </div>
         </div>
       </div>

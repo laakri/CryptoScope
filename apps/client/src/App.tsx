@@ -5,6 +5,7 @@ import { ThemeProvider } from "./components/ui/theme-provider";
 import Navbar from "./components/navbar";
 import { Toaster } from "./components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "react-query";
+import Footer from "./components/Footer";
 function App() {
   const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ function App() {
           <div className="flex flex-col ">
             <Navbar />
             <Routing />
+            <Footer />
           </div>
           <Toaster />
         </BrowserRouter>

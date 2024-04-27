@@ -88,7 +88,7 @@ const Favorites: React.FC = () => {
           {FavLoading ? (
             "Loading..."
           ) : !user ? (
-            <div className="text-gray-400 text-center mt-12  flex flex-col items-center gap-4">
+            <div className=" text-center mt-12  flex flex-col items-center gap-4">
               <img
                 src={docnotfounimg}
                 alt="docnotfounimg"
@@ -99,7 +99,7 @@ const Favorites: React.FC = () => {
               </Button>
             </div>
           ) : FavData.length == 0 ? (
-            <div className="text-gray-400 text-center mt-12 mb-12 flex flex-col items-center gap-2">
+            <div className=" text-center mt-12 mb-12 flex flex-col items-center gap-2">
               <img
                 src={docnotfounimg}
                 alt="docnotfounimg"
@@ -122,9 +122,7 @@ const Favorites: React.FC = () => {
                 >
                   <Card className="flex rounded-sm items-center justify-between mb-2 pl-2">
                     <div className="flex items-center gap-1">
-                      <p className="text-white font-medium">
-                        {coin.coinId.name}
-                      </p>
+                      <p className=" font-medium">{coin.coinId.name}</p>
                       <p
                         className={getColorClass(coin.coinId.price_change_24h)}
                       >

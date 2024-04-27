@@ -13,7 +13,7 @@ const StartingSection: React.FC = () => {
         <h1 className="text-4xl ">Welcome to Crypto Scope</h1>
         <img src={startedimg} alt="chlak-image" className="h-8" />
 
-        <p className="text-gray-300 mt-2 ">
+        <p className="text-gray mt-2 ">
           Crypto Scope is your all-in-one platform for managing your
           cryptocurrency investments, tracking market trends, and setting
           personalized targets. Whether you're a seasoned trader or just getting
@@ -23,10 +23,10 @@ const StartingSection: React.FC = () => {
 
         <div className="mt-6">
           <h2 className="text-2xl font-semibold">Getting Started</h2>
-          <p className="text-gray-300 mt-2">
+          <p className="text-gray mt-2">
             Welcome aboard! Let's get you up and running in no time.
           </p>
-          <ol className="list-decimal text-gray-300 mt-4 ml-6">
+          <ol className="list-decimal text-gray mt-4 ml-6">
             <li>
               <p className="font-bold flex items-center gap-1 ">
                 <FaCheck className="text-green-400" />
@@ -66,11 +66,11 @@ const StartingSection: React.FC = () => {
         </div>
         <div className="mt-6">
           <h2 className="text-2xl font-semibold">Advanced Features</h2>
-          <p className="text-gray-300 mt-2">
+          <p className="text-gray mt-2">
             Take your crypto journey to the next level with these advanced
             features:
           </p>
-          <ul className="list-disc text-gray-300 mt-4 ml-6">
+          <ul className="list-disc text-gray mt-4 ml-6">
             <li>
               Customizable Alerts: Stay informed about price fluctuations and
               market movements with customizable alerts. Set up notifications

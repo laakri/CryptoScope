@@ -16,10 +16,7 @@ const Portfolio: React.FC = () => {
 
       <div className="overflow-hidden w-full  p-4">
         <div className="flex justify-between  ">
-          <Button
-            variant="secondary"
-            className="rounded-2xl bg-gray-800 hover:bg-gray-600"
-          >
+          <Button variant="secondary" className="rounded-2xl ">
             Share
           </Button>
           <div className="flex items-center gap-1 ">

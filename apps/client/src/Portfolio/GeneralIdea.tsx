@@ -15,7 +15,7 @@ const GeneralIdea: React.FC = () => {
         </h1>
         <img src={startedimg} alt="chlak-image" className="h-8" />
 
-        <p className="text-gray-300 mt-2 ">
+        <p className="text-gray mt-2 ">
           Cryptocurrency investment involves setting targets, managing stress,
           and navigating through various emotions. Let's dive into some key
           aspects to consider:
@@ -23,13 +23,13 @@ const GeneralIdea: React.FC = () => {
 
         <div className="mt-6">
           <h2 className="text-2xl font-semibold">Setting Targets</h2>
-          <p className="text-gray-300 mt-2">
+          <p className="text-gray mt-2">
             Setting targets in cryptocurrency investments is crucial for
             achieving your financial goals. Whether it's a price target for
             selling or a target for accumulating more assets, having a clear
             strategy helps you stay focused and disciplined.
           </p>
-          <ol className="list-decimal text-gray-300 mt-4 ml-6">
+          <ol className="list-decimal text-gray mt-4 ml-6">
             <li>
               <p className="font-bold flex items-center gap-1 ">
                 Define Your Goals:
@@ -70,12 +70,12 @@ const GeneralIdea: React.FC = () => {
           <h2 className="text-2xl font-semibold">
             Managing Stress and Fear in Crypto Investments
           </h2>
-          <p className="text-gray-300 mt-2">
+          <p className="text-gray mt-2">
             Investing in cryptocurrencies can be a rollercoaster ride, filled
             with ups and downs. Here are some tips for managing stress and fear
             in crypto investments:
           </p>
-          <ul className="list-disc text-gray-300 mt-4 ml-6">
+          <ul className="list-disc text-gray mt-4 ml-6">
             <li>
               <p className="font-bold">Stay Informed:</p>
               Stay updated on market news, trends, and developments to make
