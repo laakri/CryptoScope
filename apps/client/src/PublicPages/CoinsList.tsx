@@ -1,7 +1,14 @@
-import { useEffect, useId, useState } from "react";
-import { useQueryClient } from "react-query";
-import { FaRegStar, FaSearch } from "react-icons/fa";
-import { useCryptoService, addToFavorites } from "@/services/cryptoService";
+import { useEffect, useState } from "react";
+import { QueryFunction, useQuery, useQueryClient } from "react-query";
+import { FaRegStar, FaSearch, FaStar } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+import {
+  useCryptoService,
+  addToFavorites,
+  getUserFavoriteCoins,
+  DeleteFromFavorites,
+} from "@/services/cryptoService";
 import {
   Pagination,
   PaginationContent,
@@ -22,8 +29,10 @@ import Favorites from "@/components/favorites";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/stores/user";
+import { useToast } from "@/components/ui/use-toast";
 
 const CoinsList: React.FC = () => {
+  const { toast } = useToast();
   const { user } = useUserStore();
   const client = useQueryClient();
   const [page, setPage] = useState<number>(0);
@@ -31,13 +40,38 @@ const CoinsList: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalCoins, setTotalCoins] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [favoriteCoins, setFavoriteCoins] = useState<string[]>([]);
+  const [addCoinFavLoading, setAddCoinFavLoading] = useState(false);
   const coins = useCryptoService(page, search);
 
+  const fetchUserFavoriteCoins: QueryFunction<any, string> = async () => {
+    try {
+      if (user) {
+        const userId = user.userId;
+        const response = await getUserFavoriteCoins(userId);
+        return response;
+      }
+    } catch (error) {
+      console.error("Error getting user's favorite coins:", error);
+      throw new Error("Failed to fetch user's favorite coins");
+    }
+  };
+  const { data: FavData } = useQuery(
+    "GetFavoriteCoins",
+    fetchUserFavoriteCoins
+  );
+
+  useEffect(() => {
+    if (user && FavData) {
+      const coinIds = FavData.map((favCoin: any) => favCoin.coinId._id);
+      setFavoriteCoins(coinIds);
+    }
+  }, [user, FavData]);
   useEffect(() => {
     setTotalPages(coins.totalPages);
     setTotalCoins(coins.totalCoins);
     setLoading(false);
-  }, [coins]);
+  }, [coins, user, FavData]);
 
   const handlePreviousPage = () => {
     setPage((prevPage: number) => Math.max(prevPage - 1, 0));
@@ -65,12 +99,43 @@ const CoinsList: React.FC = () => {
       <div>{percentageChange.toFixed(2)}%</div>
     );
   };
-
-  const addToFavoritesHandler = async (coinId: string) => {
-    if (user) {
-      await addToFavorites(coinId, user.userId);
+  const removeFromFavoritesHandler = async (coinId: string) => {
+    try {
+      await DeleteFromFavorites(coinId);
+      setFavoriteCoins((prevFavoriteCoins) => [...prevFavoriteCoins, coinId]);
       client.invalidateQueries("GetFavoriteCoins");
+    } catch (error) {
+      console.error("Error removing coin from favorites:", error);
     }
+  };
+  const addToFavoritesHandler = async (coinId: string) => {
+    setAddCoinFavLoading(true);
+
+    if (!user) {
+      toast({
+        variant: "destructive",
+        description: "You must be logged in to add favorites.",
+      });
+      setAddCoinFavLoading(false);
+
+      return;
+    }
+
+    try {
+      await addToFavorites(coinId, user.userId);
+      toast({
+        description: "Coin added to favorites!",
+      });
+      setFavoriteCoins((prevFavoriteCoins) => [...prevFavoriteCoins, coinId]);
+      client.invalidateQueries("GetFavoriteCoins");
+    } catch (error) {
+      console.error("Error adding coin to favorites:", error);
+    }
+    setAddCoinFavLoading(false);
+  };
+
+  const isFavorite = (coinId: string) => {
+    return favoriteCoins.includes(coinId);
   };
 
   return (
@@ -100,89 +165,109 @@ const CoinsList: React.FC = () => {
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-50"></div>
           </div>
         ) : (
-          <Table className="w-full table-fixed">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[50px]"></TableHead>
-                <TableHead>Coin</TableHead>
-                <TableHead>Price (24h%)</TableHead>
-                <TableHead>Price Change (24h)</TableHead>
-                <TableHead>Total Supply</TableHead>
-                <TableHead>Market Cap</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {coins.coins.map((coin: any) => (
-                <TableRow key={coin.id}>
-                  <TableCell>
-                    <Button
-                      className="hover:text-yellow-400 text-lg"
-                      variant="link"
-                      size={"icon"}
-                      onClick={() => addToFavoritesHandler(coin._id)}
-                    >
-                      <FaRegStar />
-                    </Button>
-                  </TableCell>
-                  <TableCell className="flex items-center gap-1 mt-1.5 ">
-                    <img
-                      src={coin.image}
-                      alt={coin.name}
-                      className="w-6 h-6 mr-2"
-                    />
-                    {coin.name}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      {coin.current_price}
-                      <div className={getColorClass(coin.price_change_24h)}>
-                        {getChangePercentage(
-                          coin.price_change_24h,
-                          coin.current_price
-                        )}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className={getColorClass(coin.price_change_24h)}>
-                    {coin.price_change_24h.toFixed(2)}
-                  </TableCell>
-                  <TableCell>{coin.total_supply}</TableCell>
-                  <TableCell>{coin.market_cap}</TableCell>
+          <>
+            <Table className="w-full table-fixed">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead>Coin</TableHead>
+                  <TableHead>Price (24h%)</TableHead>
+                  <TableHead>Price Change (24h)</TableHead>
+                  <TableHead>Total Supply</TableHead>
+                  <TableHead>Market Cap</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-        {!loading && coins.coins.length !== 0 && (
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" onClick={handlePreviousPage} />
-              </PaginationItem>
-              {[...Array(totalPages)].map((_, index) => {
-                const startPage = Math.max(0, page - 2);
-                const endPage = Math.min(startPage + 4, totalPages - 1);
+              </TableHeader>
+              <TableBody>
+                {coins.coins.map((coin: any) => (
+                  <TableRow key={coin.id}>
+                    <TableCell>
+                      {addCoinFavLoading ? (
+                        <Button
+                          className="spin text-md"
+                          variant="link"
+                          size={"icon"}
+                        >
+                          <AiOutlineLoading3Quarters className="animate-spin " />
+                        </Button>
+                      ) : isFavorite(coin._id) ? (
+                        <Button
+                          className="text-yellow-400 text-lg"
+                          variant="link"
+                          size={"icon"}
+                          onClick={() => removeFromFavoritesHandler(coin._id)}
+                        >
+                          <FaStar />
+                        </Button>
+                      ) : (
+                        <Button
+                          className="hover:text-yellow-400 text-lg"
+                          variant="link"
+                          size={"icon"}
+                          onClick={() => addToFavoritesHandler(coin._id)}
+                        >
+                          <FaRegStar />
+                        </Button>
+                      )}
+                    </TableCell>
+                    <TableCell className="flex items-center gap-1 mt-1.5 ">
+                      <img
+                        src={coin.image}
+                        alt={coin.name}
+                        className="w-6 h-6 mr-2"
+                      />
+                      {coin.name}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {coin.current_price}
+                        <div className={getColorClass(coin.price_change_24h)}>
+                          {getChangePercentage(
+                            coin.price_change_24h,
+                            coin.current_price
+                          )}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className={getColorClass(coin.price_change_24h)}>
+                      {coin.price_change_24h.toFixed(2)}
+                    </TableCell>
+                    <TableCell>{coin.total_supply}</TableCell>
+                    <TableCell>{coin.market_cap}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
 
-                if (index >= startPage && index <= endPage) {
-                  return (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        href="#"
-                        onClick={() => setPage(index)}
-                        isActive={page === index}
-                      >
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                }
-                return null;
-              })}
-              <PaginationItem>
-                <PaginationNext href="#" onClick={handleNextPage} />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious href="#" onClick={handlePreviousPage} />
+                </PaginationItem>
+                {[...Array(totalPages)].map((_, index) => {
+                  const startPage = Math.max(0, page - 2);
+                  const endPage = Math.min(startPage + 4, totalPages - 1);
+
+                  if (index >= startPage && index <= endPage) {
+                    return (
+                      <PaginationItem key={index}>
+                        <PaginationLink
+                          href="#"
+                          onClick={() => setPage(index)}
+                          isActive={page === index}
+                        >
+                          {index + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  }
+                  return null;
+                })}
+                <PaginationItem>
+                  <PaginationNext href="#" onClick={handleNextPage} />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </>
         )}
       </div>
       <Favorites />

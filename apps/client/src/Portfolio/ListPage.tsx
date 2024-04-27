@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FaPlus, FaSearch, FaSave } from "react-icons/fa"; // Added FaSave icon
+import { FaPlus, FaSearch, FaSave } from "react-icons/fa";
 import {
   Table,
   TableBody,
@@ -135,7 +135,7 @@ const ListPage: React.FC = () => {
             </div>
           ) : (
             <>
-              {changesMade && ( // Show save button if changes made
+              {changesMade && (
                 <Button
                   onClick={saveChanges}
                   disabled={saveDisabled}

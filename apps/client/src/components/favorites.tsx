@@ -12,7 +12,7 @@ import {
   DeleteFromFavorites,
   getUserFavoriteCoins,
 } from "@/services/cryptoService";
-import { QueryFunction, useQuery } from "react-query";
+import { QueryFunction, useQuery, useQueryClient } from "react-query";
 import {
   Card,
   CardContent,
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/card";
 import { useUserStore } from "@/stores/user";
 const Favorites: React.FC = () => {
+  const client = useQueryClient();
   const [favorites, setFavorites] = useState<any[]>([]);
   const [active, setactive] = useState(0);
   const { user } = useUserStore();
@@ -55,6 +56,7 @@ const Favorites: React.FC = () => {
       setFavorites((prevFavorites) =>
         prevFavorites.filter((coin) => coin._id !== coinId)
       );
+      client.invalidateQueries("GetFavoriteCoins");
     } catch (error) {
       console.error("Error removing coin from favorites:", error);
     }
@@ -79,7 +81,20 @@ const Favorites: React.FC = () => {
 
   return (
     <div className="min-w-[20rem] w-[20rem] mt-4  hidden lg:block">
-      <div className="rounded-xl border min-h-24 max-h-max mb-2">
+      <Card>
+        <CardHeader className="p-2 pt-0 md:p-4">
+          <CardTitle>Upgrade to Pro</CardTitle>
+          <CardDescription>
+            Unlock all features and get unlimited access to our support team.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+          <Button size="sm" className="w-full">
+            Upgrade
+          </Button>
+        </CardContent>
+      </Card>
+      <div className="rounded-xl border min-h-24 max-h-max mt-2">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2 justify-center">
             <img src={arrowimg} alt="" className="h-7" />
@@ -147,19 +162,6 @@ const Favorites: React.FC = () => {
           )}
         </div>
       </div>
-      <Card>
-        <CardHeader className="p-2 pt-0 md:p-4">
-          <CardTitle>Upgrade to Pro</CardTitle>
-          <CardDescription>
-            Unlock all features and get unlimited access to our support team.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-          <Button size="sm" className="w-full">
-            Upgrade
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   );
 };
