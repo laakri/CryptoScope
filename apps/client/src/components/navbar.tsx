@@ -54,9 +54,9 @@ function Navbar() {
     logout();
   };
   return (
-    <div className="sticky top-0 left-0 w-full z-10 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2 border-b">
+    <div className="sticky top-0 left-0 w-full z-50 bg-opacity-50 backdrop-filter backdrop-blur-lg px-2 border-b">
       <div className="py-3 px-1 border-b">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-screen-2xl mx-auto flex justify-between items-center">
           <Link to="/" className="text-gray-300">
             <Button variant="link" className="flex items-center gap-2 font-4 ">
               {/* <TfiTarget className="text-xl text-gray-200" /> */}
