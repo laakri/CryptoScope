@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useQueryClient } from "react-query";
 import { FaRegStar, FaSearch } from "react-icons/fa";
 import { useCryptoService, addToFavorites } from "@/services/cryptoService";
@@ -21,8 +21,10 @@ import {
 import Favorites from "@/components/favorites";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUserStore } from "@/stores/user";
 
 const CoinsList: React.FC = () => {
+  const { user } = useUserStore();
   const client = useQueryClient();
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
@@ -65,13 +67,15 @@ const CoinsList: React.FC = () => {
   };
 
   const addToFavoritesHandler = async (coinId: string) => {
-    await addToFavorites(coinId);
-    client.invalidateQueries("GetFavoriteCoins");
+    if (user) {
+      await addToFavorites(coinId, user.userId);
+      client.invalidateQueries("GetFavoriteCoins");
+    }
   };
 
   return (
     <div
-      className="max-w-7xl w-full mx-auto px-4 flex justify-between gap-4 min-h-screen"
+      className="max-w-screen-2xl w-full mx-auto px-4 flex justify-between gap-4 min-h-screen"
       style={{ minHeight: "calc(100vh - 10rem)" }}
     >
       <div className="overflow-hidden rounded-lg my-8 w-3/4">

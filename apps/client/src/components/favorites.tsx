@@ -12,7 +12,7 @@ import {
   DeleteFromFavorites,
   getUserFavoriteCoins,
 } from "@/services/cryptoService";
-import { useQuery } from "react-query";
+import { QueryFunction, useQuery } from "react-query";
 import {
   Card,
   CardContent,
@@ -20,12 +20,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useUserStore } from "@/stores/user";
 const Favorites: React.FC = () => {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [active, setactive] = useState(0);
+  const { user } = useUserStore();
+
+  const fetchUserFavoriteCoins: QueryFunction<any, string> = async () => {
+    try {
+      if (user) {
+        const userId = user.userId;
+        const response = await getUserFavoriteCoins(userId);
+        return response;
+      }
+    } catch (error) {
+      console.error("Error getting user's favorite coins:", error);
+      throw new Error("Failed to fetch user's favorite coins");
+    }
+  };
   const { data: FavData, isLoading: FavLoading } = useQuery(
     "GetFavoriteCoins",
-    getUserFavoriteCoins
+    fetchUserFavoriteCoins
   );
 
   useEffect(() => {
@@ -72,7 +87,18 @@ const Favorites: React.FC = () => {
           </h2>
           {FavLoading ? (
             "Loading..."
-          ) : FavData.length === 0 ? (
+          ) : !user ? (
+            <div className="text-gray-400 text-center mt-12  flex flex-col items-center gap-4">
+              <img
+                src={docnotfounimg}
+                alt="docnotfounimg"
+                className="h-14 w-14"
+              />
+              <Button size="sm" className="w-full" variant={"outline"}>
+                SignUp
+              </Button>
+            </div>
+          ) : FavData.length == 0 ? (
             <div className="text-gray-400 text-center mt-12 mb-12 flex flex-col items-center gap-2">
               <img
                 src={docnotfounimg}
@@ -87,10 +113,10 @@ const Favorites: React.FC = () => {
                 <Reorder.Item
                   key={`${coin._id}-${index}`}
                   value={coin.id}
-                  onDragStart={(e) => {
+                  onDragStart={(e: any) => {
                     setactive(index);
                   }}
-                  onDragEnd={(e) => {
+                  onDragEnd={(e: any) => {
                     setactive(index);
                   }}
                 >

@@ -118,9 +118,14 @@ router.post(
         }
         coin = new Coin({ existingCoin: cryptoCoin._id });
       } else {
-        // Custom coin
         coin = new Coin({ customCoin: { name, price } });
       }
+
+      coin.targets = [
+        { value: "", hit: false },
+        { value: "", hit: false },
+        { value: "", hit: false },
+      ];
 
       await coin.save();
 
@@ -135,6 +140,7 @@ router.post(
     }
   }
 );
+
 router.get("/:targetTableId", async (req, res) => {
   try {
     const { targetTableId } = req.params;
@@ -173,17 +179,14 @@ async function populateCoins(coins) {
         coinDetails = {
           name: cryptoCoin.name,
           price: cryptoCoin.current_price,
-          targets: coin.targets.map((target) => ({
-            value: target,
-            hit: false,
-          })),
+          targets: coin.targets,
         };
       }
     } else {
       coinDetails = {
         name: coin.customCoin.name,
         price: coin.customCoin.price,
-        targets: coin.targets.map((target) => ({ value: target, hit: false })), // Initialize targets for custom coins
+        targets: coin.targets,
       };
     }
 
