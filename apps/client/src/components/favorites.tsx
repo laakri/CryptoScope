@@ -128,10 +128,10 @@ const Favorites: React.FC = () => {
                 <Reorder.Item
                   key={`${coin._id}-${index}`}
                   value={coin.id}
-                  onDragStart={(e: any) => {
+                  onDragStart={() => {
                     setactive(index);
                   }}
-                  onDragEnd={(e: any) => {
+                  onDragEnd={() => {
                     setactive(index);
                   }}
                 >
