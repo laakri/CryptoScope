@@ -138,7 +138,7 @@ const SignUp: React.FC = () => {
             )}
           />
           <DialogFooter>
-            <Button type="submit" variant="outline">
+            <Button type="submit" variant="secondary" className="w-full">
               {loading ? (
                 <div className="flex items-center gap-1">
                   <BiLoaderAlt className="mr-2 animate-spin" />

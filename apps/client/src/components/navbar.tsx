@@ -10,12 +10,10 @@ import whitelogo from "../assets/Lines/X-line.png";
 import { Input } from "./ui/input";
 import { getTopTrendingCoins } from "@/services/cryptoService";
 import { FaBell } from "react-icons/fa";
-import { MdOutlineLightMode } from "react-icons/md";
 import { ModeToggle } from "./mode-toggle";
 
 function Navbar() {
   const { user, logout } = useUserStore();
-  const isLoggedIn = localStorage.getItem("token") !== null;
   const logosRef = useRef<HTMLUListElement>(null);
   const [topTrendingCoins, setTopTrendingCoins] = useState<any[]>([]);
 
@@ -86,51 +84,55 @@ function Navbar() {
                   Coins
                 </Button>
               </Link>
-              <Link to="/Portfolio" className="">
-                <Button variant="ghost" className=" ">
-                  Portfolio
-                </Button>
-              </Link>
+              {user && (
+                <Link to="/Portfolio" className="">
+                  <Button variant="ghost" className=" ">
+                    Portfolio
+                  </Button>
+                </Link>
+              )}
               <Link to="/Documentation" className="">
                 <Button variant="ghost" className=" ">
                   Documentation
                 </Button>
               </Link>
-              <Button variant="outline" size={"icon"} className="  ">
-                <FaBell />
-              </Button>
-              <ModeToggle />
             </div>
-            {!isLoggedIn ? (
-              <div className="flex gap-1">
-                <Dialog>
-                  <DialogTrigger>
-                    <Button variant="ghost">login</Button>
-                  </DialogTrigger>
-                  <Login />
-                </Dialog>
-                <Dialog>
-                  <DialogTrigger>
-                    <Button variant="secondary">Sign Up</Button>
-                  </DialogTrigger>
-                  <SignUp />
-                </Dialog>
-              </div>
-            ) : (
-              <div className="flex gap-1">
-                <Button variant="link">
-                  <p>{user ? user.userName : "User Name"}</p>
-                </Button>
+            <div className="flex items-center  gap-1 ">
+              <ModeToggle />
+              {!user ? (
+                <div className="flex gap-1">
+                  <Dialog>
+                    <DialogTrigger>
+                      <Button variant="ghost">login</Button>
+                    </DialogTrigger>
+                    <Login />
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Button variant="secondary">Sign Up</Button>
+                    </DialogTrigger>
+                    <SignUp />
+                  </Dialog>
+                </div>
+              ) : (
+                <div className="flex gap-1">
+                  <Button variant="outline" size={"icon"} className="  ">
+                    <FaBell />
+                  </Button>
+                  <Button variant="link">
+                    <p>{user ? user.userName : "User Name"}</p>
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="text-red-400 hover:text-red-400"
-                  onClick={handleLogout}
-                >
-                  <MdLogout />
-                </Button>
-              </div>
-            )}
+                  <Button
+                    variant="ghost"
+                    className="text-red-400 hover:text-red-400"
+                    onClick={handleLogout}
+                  >
+                    <MdLogout />
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
