@@ -8,7 +8,7 @@ import Sidebar from "@/components/Sidebar";
 const Portfolio: React.FC = () => {
   return (
     <div
-      className="max-w-7xl w-full mx-auto px-4  flex justify-between gap-4 "
+      className="max-w-screen-2xl w-full mx-auto px-4  flex justify-between gap-4 "
       style={{ minHeight: "calc(100vh - 10rem)" }}
     >
       {/* Render the Sidebar component here */}

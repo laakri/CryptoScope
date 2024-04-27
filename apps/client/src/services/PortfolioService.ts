@@ -76,6 +76,7 @@ export const addCoinToTargetTable = async (
     throw error;
   }
 };
+
 export const getTargetTableById = async (targetTableId: string) => {
   try {
     // Make an HTTP GET request to fetch the target table by ID

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-const userId = "6617eb2a53cc5242b41221ea";
 const API_URL = "http://localhost:4401/api";
 interface Coin {
   _id: string;
@@ -31,6 +30,7 @@ interface Coin {
   roi: any;
   last_updated: Date;
 }
+
 export interface CryptoData {
   coins: Coin[];
   totalPages: number;
@@ -76,7 +76,7 @@ export const useCryptoService = (page: number, search: string): CryptoData => {
   return cryptoData;
 };
 
-export const addToFavorites = async (coinId: string) => {
+export const addToFavorites = async (coinId: string, userId: string) => {
   const data = {
     coinId,
     userId,
@@ -88,7 +88,7 @@ export const addToFavorites = async (coinId: string) => {
     console.error("Error adding coin to favorites:", error);
   }
 };
-export const getUserFavoriteCoins = async () => {
+export const getUserFavoriteCoins = async (userId: string) => {
   try {
     const response = await axios.get(
       `${API_URL}/favoriteCoins/userFavoriteCoins/${userId}`

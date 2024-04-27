@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaPlus, FaSearch, FaSave } from "react-icons/fa"; // Added FaSave icon
 import {
   Table,
   TableBody,
@@ -16,10 +16,16 @@ import { CommandDialog } from "@/components/ui/command";
 import { useParams } from "react-router-dom";
 import { getTargetTableById } from "@/services/PortfolioService";
 import horLine from "../assets/Lines/hor-line.png";
+import { Checkbox } from "@/components/ui/checkbox";
+import { IoEllipsisVerticalSharp } from "react-icons/io5";
+
 interface Coin {
   name: string;
   price: number;
-  targets: string[];
+  targets: {
+    value: string;
+    hit: boolean;
+  }[];
 }
 
 const ListPage: React.FC = () => {
@@ -28,6 +34,8 @@ const ListPage: React.FC = () => {
   const [listName, setListName] = useState<string>("Loading");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [changesMade, setChangesMade] = useState<boolean>(false); // Track if changes have been made
+  const [saveDisabled, setSaveDisabled] = useState<boolean>(true); // Disable save button initially
 
   const toggleDialog = () => {
     setOpen((open) => !open);
@@ -37,21 +45,12 @@ const ListPage: React.FC = () => {
     setCoins((prevCoins) =>
       prevCoins.map((coin) => ({
         ...coin,
-        targets: [...coin.targets, ""],
+        targets: [...coin.targets, { value: "", hit: false }],
       }))
     );
+    setChangesMade(true); // Set changes made flag
+    setSaveDisabled(false); // Enable save button
   };
-
-  // const addRow = () => {
-  //   setCoins((prevCoins) => [
-  //     ...prevCoins,
-  //     {
-  //       name: "",
-  //       price: 0,
-  //       targets: Array(coins.length > 0 ? coins[0].targets.length : 0).fill(""),
-  //     },
-  //   ]);
-  // };
 
   const handleTargetChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -63,12 +62,35 @@ const ListPage: React.FC = () => {
       prevCoins.map((coin, index) => {
         if (index === rowIndex) {
           const updatedTargets = [...coin.targets];
-          updatedTargets[targetIndex] = value;
+          updatedTargets[targetIndex] = { value, hit: false };
           return { ...coin, targets: updatedTargets };
         }
         return coin;
       })
     );
+    setChangesMade(true);
+    setSaveDisabled(false);
+  };
+
+  const toggleHit = (rowIndex: number, targetIndex: number) => {
+    setCoins((prevCoins) =>
+      prevCoins.map((coin, index) => {
+        if (index === rowIndex) {
+          const updatedTargets = [...coin.targets];
+          updatedTargets[targetIndex].hit = !updatedTargets[targetIndex].hit;
+          return { ...coin, targets: updatedTargets };
+        }
+        return coin;
+      })
+    );
+    setChangesMade(true);
+    setSaveDisabled(false);
+  };
+
+  const saveChanges = () => {
+    // Logic to save changes
+    setChangesMade(false); // Reset changes made flag
+    setSaveDisabled(true); // Disable save button after saving
   };
 
   useEffect(() => {
@@ -113,6 +135,16 @@ const ListPage: React.FC = () => {
             </div>
           ) : (
             <>
+              {changesMade && ( // Show save button if changes made
+                <Button
+                  onClick={saveChanges}
+                  disabled={saveDisabled}
+                  variant={"secondary"}
+                  className="max-w-fit  gap-2 "
+                >
+                  <FaSave /> Save
+                </Button>
+              )}
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -146,19 +178,34 @@ const ListPage: React.FC = () => {
                       </TableCell>
                       {coin.targets.map((target, targetIndex) => (
                         <TableCell key={targetIndex}>
-                          <Input
-                            type="text"
-                            value={target}
-                            onChange={(e) =>
-                              handleTargetChange(e, rowIndex, targetIndex)
-                            }
-                          />
+                          <div className="flex items-center gap-2 ">
+                            <Checkbox
+                              checked={target.hit}
+                              onChange={() => toggleHit(rowIndex, targetIndex)}
+                            />
+
+                            <div className="relative">
+                              <Input
+                                type="text"
+                                value={target.value}
+                                onChange={(e) =>
+                                  handleTargetChange(e, rowIndex, targetIndex)
+                                }
+                              />
+                              <div className="absolute top-1.5 right-1.5 hover:cursor-pointer hover:color-white   ">
+                                <ButtonSmooth className="bg-transparent ">
+                                  <IoEllipsisVerticalSharp />
+                                </ButtonSmooth>
+                              </div>
+                            </div>
+                          </div>
                         </TableCell>
                       ))}
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
+
               <ButtonSmooth className="text-[11px] " onClick={toggleDialog}>
                 <FaPlus />
               </ButtonSmooth>
