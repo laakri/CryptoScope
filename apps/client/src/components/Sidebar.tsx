@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
   }, []);
   return (
     <div
-      className="overflow-hidden min-w-[13rem] h-full border-r  mt-4 pt-4 min-h-screen"
+      className="hidden lg:block overflow-hidden min-w-[13rem] h-full border-r  mt-4 pt-4 min-h-screen"
       style={{ minHeight: "calc(100vh - 10rem)" }}
     >
       <Link

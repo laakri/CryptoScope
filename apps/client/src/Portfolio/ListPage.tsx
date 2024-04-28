@@ -105,7 +105,7 @@ const ListPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let userId: string = "494";
+      let userId: string = "0000000000000000000000000";
       try {
         setLoading(true);
         if (id) {
@@ -130,8 +130,8 @@ const ListPage: React.FC = () => {
 
   return (
     <>
-      <div className="overflow-hidden w-full  p-4">
-        <div className="flex justify-between  ">
+      <div className="overflow-hidden w-full px-1 py-4">
+        <div className="flex justify-between">
           <Button variant="secondary" className="rounded-2xl ">
             Share
           </Button>
@@ -189,14 +189,16 @@ const ListPage: React.FC = () => {
                         coins[0].targets.map((_, index) => (
                           <TableHead key={index}>Target {index + 1}</TableHead>
                         ))}
-                      <TableHead>
-                        <ButtonSmooth
-                          className="text-[11px] "
-                          onClick={addColumn}
-                        >
-                          <FaPlus />
-                        </ButtonSmooth>
-                      </TableHead>
+                      {isUserOwner && (
+                        <TableHead>
+                          <ButtonSmooth
+                            className="text-[11px] "
+                            onClick={addColumn}
+                          >
+                            <FaPlus />
+                          </ButtonSmooth>
+                        </TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
 
@@ -216,7 +218,7 @@ const ListPage: React.FC = () => {
                         {coin.targets.map((target, targetIndex) => (
                           <TableCell key={targetIndex}>
                             <div className="flex items-center gap-2">
-                              {isUserOwner ? (
+                              {isUserOwner && (
                                 <input
                                   className="peer h-4 w-4 accent-white shrink-0 border"
                                   type="checkbox"
@@ -225,10 +227,6 @@ const ListPage: React.FC = () => {
                                     toggleHit(rowIndex, targetIndex)
                                   }
                                 />
-                              ) : target.hit ? (
-                                "-"
-                              ) : (
-                                ""
                               )}
 
                               <div className="relative">
@@ -244,15 +242,32 @@ const ListPage: React.FC = () => {
                                       )
                                     }
                                   />
+                                ) : target.value !== "" ? (
+                                  <div
+                                    style={{
+                                      textDecoration: target.hit
+                                        ? "line-through red"
+                                        : "none",
+                                      color: "white",
+                                      textDecorationThickness: "2px",
+                                    }}
+                                  >
+                                    {target.value}
+                                  </div>
                                 ) : (
-                                  <div>{target.value}</div>
+                                  <img
+                                    src={horLine}
+                                    alt="horLine"
+                                    className="w-8"
+                                  />
                                 )}
-
-                                <div className="absolute top-1.5 right-1.5 hover:cursor-pointer hover:color-white">
-                                  <ButtonSmooth className="bg-transparent">
-                                    <IoEllipsisVerticalSharp />
-                                  </ButtonSmooth>
-                                </div>
+                                {isUserOwner && (
+                                  <div className="absolute top-1.5 right-1.5 hover:cursor-pointer hover:color-white">
+                                    <ButtonSmooth className="bg-transparent">
+                                      <IoEllipsisVerticalSharp />
+                                    </ButtonSmooth>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </TableCell>
@@ -261,10 +276,11 @@ const ListPage: React.FC = () => {
                     ))}
                   </TableBody>
                 </Table>
-
-                <ButtonSmooth className="text-[11px] " onClick={toggleDialog}>
-                  <FaPlus />
-                </ButtonSmooth>
+                {isUserOwner && (
+                  <ButtonSmooth className="text-[11px] " onClick={toggleDialog}>
+                    <FaPlus />
+                  </ButtonSmooth>
+                )}
               </>
             )}
             <CommandDialog open={open} onOpenChange={setOpen}>
