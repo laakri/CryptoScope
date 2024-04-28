@@ -144,23 +144,51 @@ router.post(
 router.get("/:targetTableId", async (req, res) => {
   try {
     const { targetTableId } = req.params;
+    const { userId } = req.body;
+
+    const isUserOwner = await checkUserOwnership(targetTableId, userId);
+
+    if (!isUserOwner) {
+      return res.status(403).json({
+        message: "User does not own the target table",
+        isUserOwner: false,
+      });
+    }
 
     const targetTable = await TargetTable.findById(targetTableId);
 
     if (!targetTable) {
-      return res.status(404).json({ message: "Target table not found" });
+      return res
+        .status(404)
+        .json({ message: "Target table not found", isUserOwner: isUserOwner });
     }
 
-    // Populate the coins array with coin details and targets
     const populatedCoins = await populateCoins(targetTable.coins);
 
-    res.json({ targetTableName: targetTable.name, coins: populatedCoins });
+    res.json({
+      targetTableName: targetTable.name,
+      coins: populatedCoins,
+      isUserOwner: isUserOwner,
+    });
   } catch (error) {
     console.error("Error fetching target table:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", isUserOwner: false });
   }
 });
 
+async function checkUserOwnership(targetTableId, userId) {
+  try {
+    const targetTable = await TargetTable.findOne({
+      _id: targetTableId,
+      userId: userId,
+    });
+    console.log(targetTable);
+    return !!targetTable;
+  } catch (error) {
+    console.error("Error checking user ownership:", error);
+    return false;
+  }
+}
 async function populateCoins(coins) {
   const populatedCoins = [];
 
@@ -177,6 +205,7 @@ async function populateCoins(coins) {
       const cryptoCoin = await Crypto.findById(coin.existingCoin);
       if (cryptoCoin) {
         coinDetails = {
+          id: coin._id,
           name: cryptoCoin.name,
           price: cryptoCoin.current_price,
           targets: coin.targets,
@@ -184,6 +213,7 @@ async function populateCoins(coins) {
       }
     } else {
       coinDetails = {
+        id: coin._id,
         name: coin.customCoin.name,
         price: coin.customCoin.price,
         targets: coin.targets,
@@ -214,6 +244,53 @@ router.delete("/:userId/targetTables/:targetTableId", async (req, res) => {
     });
   } catch (error) {
     console.error("Error deleting target table:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+router.put("/:targetTableId/updateCoins", async (req, res) => {
+  try {
+    console.log("check");
+    const { userId, targetTableId } = req.body;
+    const coinsToUpdate = req.body.coins;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!user.targetTables.includes(targetTableId)) {
+      return res
+        .status(403)
+        .json({ message: "User does not own the target table" });
+    }
+
+    const targetTable = await TargetTable.findById(targetTableId);
+    if (!targetTable) {
+      return res.status(404).json({ message: "Target table not found" });
+    }
+
+    for (const coinData of coinsToUpdate) {
+      const { id, price, targets } = coinData;
+
+      const coin = await Coin.findById(id);
+      if (!coin) {
+        console.error(`Coin with ID ${id} not found`);
+        continue;
+      }
+
+      // coin.price = price;
+
+      targets.forEach((targetData, index) => {
+        coin.targets[index] = targetData;
+        // coin.targets[index].hit = targetData.hit;
+      });
+
+      await coin.save();
+    }
+
+    res.json({ message: "Coins updated successfully" });
+  } catch (error) {
+    console.error("Error updating coins:", error);
     res.status(500).json({ message: "Server error" });
   }
 });

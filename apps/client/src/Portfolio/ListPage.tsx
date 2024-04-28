@@ -14,12 +14,13 @@ import { ButtonSmooth } from "@/components/ui/button-smooth";
 import CoinSearchDialog from "@/components/CoinSearch";
 import { CommandDialog } from "@/components/ui/command";
 import { useParams } from "react-router-dom";
-import { getTargetTableById } from "@/services/PortfolioService";
+import { getTargetTableById, updateCoins } from "@/services/PortfolioService";
 import horLine from "../assets/Lines/hor-line.png";
-import { Checkbox } from "@/components/ui/checkbox";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
+import { useUserStore } from "@/stores/user";
 
 interface Coin {
+  id: string;
   name: string;
   price: number;
   targets: {
@@ -27,16 +28,17 @@ interface Coin {
     hit: boolean;
   }[];
 }
-
 const ListPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { user } = useUserStore();
+
   const [coins, setCoins] = useState<Coin[]>([]);
   const [listName, setListName] = useState<string>("Loading");
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [changesMade, setChangesMade] = useState<boolean>(false); // Track if changes have been made
-  const [saveDisabled, setSaveDisabled] = useState<boolean>(true); // Disable save button initially
-
+  const [changesMade, setChangesMade] = useState<boolean>(false);
+  const [saveDisabled, setSaveDisabled] = useState<boolean>(true);
+  const [isUserOwner, setisUserOwner] = useState<boolean>(false);
   const toggleDialog = () => {
     setOpen((open) => !open);
   };
@@ -48,8 +50,8 @@ const ListPage: React.FC = () => {
         targets: [...coin.targets, { value: "", hit: false }],
       }))
     );
-    setChangesMade(true); // Set changes made flag
-    setSaveDisabled(false); // Enable save button
+    setChangesMade(true);
+    setSaveDisabled(false);
   };
 
   const handleTargetChange = (
@@ -76,8 +78,12 @@ const ListPage: React.FC = () => {
     setCoins((prevCoins) =>
       prevCoins.map((coin, index) => {
         if (index === rowIndex) {
-          const updatedTargets = [...coin.targets];
-          updatedTargets[targetIndex].hit = !updatedTargets[targetIndex].hit;
+          const updatedTargets = coin.targets.map((target, i) => {
+            if (i === targetIndex) {
+              return { ...target, hit: !target.hit };
+            }
+            return target;
+          });
           return { ...coin, targets: updatedTargets };
         }
         return coin;
@@ -87,24 +93,34 @@ const ListPage: React.FC = () => {
     setSaveDisabled(false);
   };
 
-  const saveChanges = () => {
-    // Logic to save changes
-    setChangesMade(false); // Reset changes made flag
-    setSaveDisabled(true); // Disable save button after saving
+  const saveChanges = async () => {
+    if (user && id) {
+      const userId = user.userId;
+      console.log("Changes saved:", coins);
+      await updateCoins(userId, id, coins);
+      setChangesMade(false);
+      setSaveDisabled(true);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
+      let userId = "";
       try {
         setLoading(true);
         if (id) {
-          const { targetTableName, coins } = await getTargetTableById(id);
+          if (user) {
+            userId = user.userId;
+          }
+          const { targetTableName, coins, isUserOwner } =
+            await getTargetTableById(id, userId);
           setCoins(coins);
           setListName(targetTableName);
+          setisUserOwner(isUserOwner);
+          console.log(isUserOwner);
         }
       } catch (error) {
         console.error("Error fetching target table:", error);
-        // Handle error
       }
       setLoading(false);
     };
@@ -135,16 +151,18 @@ const ListPage: React.FC = () => {
             </div>
           ) : (
             <>
-              {changesMade && (
-                <Button
-                  onClick={saveChanges}
-                  disabled={saveDisabled}
-                  variant={"secondary"}
-                  className="max-w-fit  gap-2 "
-                >
-                  <FaSave /> Save
-                </Button>
-              )}
+              <div className="h-12 flex justify-center ">
+                {changesMade && (
+                  <Button
+                    onClick={saveChanges}
+                    disabled={saveDisabled}
+                    variant={"secondary"}
+                    className="max-w-fit  gap-2 "
+                  >
+                    <FaSave /> Save
+                  </Button>
+                )}
+              </div>
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -178,22 +196,37 @@ const ListPage: React.FC = () => {
                       </TableCell>
                       {coin.targets.map((target, targetIndex) => (
                         <TableCell key={targetIndex}>
-                          <div className="flex items-center gap-2 ">
-                            <Checkbox
-                              checked={target.hit}
-                              onChange={() => toggleHit(rowIndex, targetIndex)}
-                            />
-
-                            <div className="relative">
-                              <Input
-                                type="text"
-                                value={target.value}
-                                onChange={(e) =>
-                                  handleTargetChange(e, rowIndex, targetIndex)
+                          <div className="flex items-center gap-2">
+                            {isUserOwner ? (
+                              <input
+                                className="peer h-4 w-4 accent-white shrink-0 border"
+                                type="checkbox"
+                                checked={target.hit}
+                                onChange={() =>
+                                  toggleHit(rowIndex, targetIndex)
                                 }
                               />
-                              <div className="absolute top-1.5 right-1.5 hover:cursor-pointer hover:color-white   ">
-                                <ButtonSmooth className="bg-transparent ">
+                            ) : target.hit ? (
+                              "-"
+                            ) : (
+                              ""
+                            )}
+
+                            <div className="relative">
+                              {isUserOwner ? (
+                                <Input
+                                  type="text"
+                                  value={target.value}
+                                  onChange={(e) =>
+                                    handleTargetChange(e, rowIndex, targetIndex)
+                                  }
+                                />
+                              ) : (
+                                <div>{target.value}</div>
+                              )}
+
+                              <div className="absolute top-1.5 right-1.5 hover:cursor-pointer hover:color-white">
+                                <ButtonSmooth className="bg-transparent">
                                   <IoEllipsisVerticalSharp />
                                 </ButtonSmooth>
                               </div>

@@ -77,13 +77,35 @@ export const addCoinToTargetTable = async (
   }
 };
 
-export const getTargetTableById = async (targetTableId: string) => {
+export const getTargetTableById = async (
+  targetTableId: string,
+  userId: string
+) => {
   try {
-    // Make an HTTP GET request to fetch the target table by ID
-    const response = await axios.get(`${API_URL}/${targetTableId}`);
+    const response = await axios.get(`${API_URL}/${targetTableId}`, {
+      data: { userId },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching target table by ID:", error);
     throw error;
+  }
+};
+
+export const updateCoins = async (
+  userId: string,
+  targetTableId: string,
+  coins: any[]
+) => {
+  const data = {
+    userId,
+    targetTableId,
+    coins,
+  };
+  try {
+    await axios.put(`${API_URL}/${targetTableId}/updateCoins`, data);
+    console.log("Coins updated successfully");
+  } catch (error) {
+    console.error("Error updating coins:", error);
   }
 };
