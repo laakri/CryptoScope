@@ -64,7 +64,7 @@ const Sidebar: React.FC = () => {
           </p>
         </div>
       </Link>
-      <Link to="list/6626dbe550aa0db3b0c07130">
+      {/* <Link to="list/6626dbe550aa0db3b0c07130">
         <div className="min-h-6 px-1 flex flex-col gap-1 mb-4">
           <div className="flex items-center gap-1">
             <MdKeyboardArrowRight />
@@ -73,7 +73,7 @@ const Sidebar: React.FC = () => {
             </p>
           </div>
         </div>
-      </Link>
+      </Link> */}
       <div className="ml-2">
         <img src={resorLine} alt="resorLine" className="h-10" />
       </div>
