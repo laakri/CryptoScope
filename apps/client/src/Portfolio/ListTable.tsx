@@ -31,7 +31,7 @@ const ListTable: React.FC = () => {
     }
   };
   return (
-    <div className="mx-8 my-6 flex flex-col items-center justify-center">
+    <div className="w-full mx-1 my-6 flex flex-col items-center justify-center">
       <h1 className="text-4xl">List of Tables</h1>
       <div className=" relative w-96 mt-6">
         <Input
@@ -46,13 +46,13 @@ const ListTable: React.FC = () => {
         </p>
       </div>
       <div className=" flex flex-col mt-6 w-full p-4 gap-2 ">
-        <div className="flex justify-between items-center w-full py-1 px-2 rounded-md border">
+        <div className="flex justify-between items-center w-full py-1 px-3 rounded-md border">
           <p>Solana List Coins</p>
           <Button variant="link" className=" text-md hover:text-yellow-500">
             <FaRegStar />
           </Button>
         </div>
-        <div className="flex justify-between items-center w-full py-1 px-2 rounded-md border">
+        <div className="flex justify-between items-center w-full py-1 px-3 rounded-md border">
           <p>Solana List Coins</p>
           <Button variant="link" className=" text-md hover:text-yellow-500">
             <FaRegStar />
