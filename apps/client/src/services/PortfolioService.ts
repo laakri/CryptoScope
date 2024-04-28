@@ -76,15 +76,12 @@ export const addCoinToTargetTable = async (
     throw error;
   }
 };
-
 export const getTargetTableById = async (
   targetTableId: string,
   userId: string
 ) => {
   try {
-    const response = await axios.get(`${API_URL}/${targetTableId}`, {
-      data: { userId },
-    });
+    const response = await axios.get(`${API_URL}/${targetTableId}/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching target table by ID:", error);

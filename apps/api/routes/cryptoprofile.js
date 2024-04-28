@@ -141,19 +141,12 @@ router.post(
   }
 );
 
-router.get("/:targetTableId", async (req, res) => {
+router.get("/:targetTableId/:userId", async (req, res) => {
   try {
-    const { targetTableId } = req.params;
-    const { userId } = req.body;
+    const { targetTableId, userId } = req.params;
+    console.log("userID", userId);
 
     const isUserOwner = await checkUserOwnership(targetTableId, userId);
-
-    if (!isUserOwner) {
-      return res.status(403).json({
-        message: "User does not own the target table",
-        isUserOwner: false,
-      });
-    }
 
     const targetTable = await TargetTable.findById(targetTableId);
 
@@ -178,17 +171,23 @@ router.get("/:targetTableId", async (req, res) => {
 
 async function checkUserOwnership(targetTableId, userId) {
   try {
-    const targetTable = await TargetTable.findOne({
-      _id: targetTableId,
-      userId: userId,
-    });
-    console.log(targetTable);
-    return !!targetTable;
+    const user = await User.findById(userId);
+    if (!user || !targetTableId) {
+      return false;
+    }
+
+    const targetTableIdString = targetTableId.toString();
+
+    return (
+      user.targetTables &&
+      user.targetTables.some((item) => item.toString() === targetTableIdString)
+    );
   } catch (error) {
     console.error("Error checking user ownership:", error);
     return false;
   }
 }
+
 async function populateCoins(coins) {
   const populatedCoins = [];
 
@@ -226,30 +225,8 @@ async function populateCoins(coins) {
   return populatedCoins;
 }
 
-// delete the Target Table
-router.delete("/:userId/targetTables/:targetTableId", async (req, res) => {
-  try {
-    const { userId, targetTableId } = req.params;
-    await TargetTable.findByIdAndDelete(targetTableId);
-    await User.findByIdAndUpdate(userId, {
-      $pull: { targetTables: targetTableId },
-    });
-    await Coin.deleteMany({ targetTable: targetTableId });
-    await Coin.updateMany(
-      { targetTable: targetTableId },
-      { $unset: { targets: "" } }
-    );
-    res.json({
-      message: "Target table, associated coins, and targets deleted",
-    });
-  } catch (error) {
-    console.error("Error deleting target table:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
 router.put("/:targetTableId/updateCoins", async (req, res) => {
   try {
-    console.log("check");
     const { userId, targetTableId } = req.body;
     const coinsToUpdate = req.body.coins;
 
@@ -282,7 +259,6 @@ router.put("/:targetTableId/updateCoins", async (req, res) => {
 
       targets.forEach((targetData, index) => {
         coin.targets[index] = targetData;
-        // coin.targets[index].hit = targetData.hit;
       });
 
       await coin.save();
@@ -294,5 +270,25 @@ router.put("/:targetTableId/updateCoins", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
+// delete the Target Table
+router.delete("/:userId/targetTables/:targetTableId", async (req, res) => {
+  try {
+    const { userId, targetTableId } = req.params;
+    await TargetTable.findByIdAndDelete(targetTableId);
+    await User.findByIdAndUpdate(userId, {
+      $pull: { targetTables: targetTableId },
+    });
+    await Coin.deleteMany({ targetTable: targetTableId });
+    await Coin.updateMany(
+      { targetTable: targetTableId },
+      { $unset: { targets: "" } }
+    );
+    res.json({
+      message: "Target table, associated coins, and targets deleted",
+    });
+  } catch (error) {
+    console.error("Error deleting target table:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 module.exports = router;

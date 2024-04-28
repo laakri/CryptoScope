@@ -88,7 +88,7 @@ const CoinsList: React.FC = () => {
   };
 
   const getColorClass = (change: number) => {
-    return change > 0 ? "text-green-300" : "text-red-400";
+    return change > 0 ? "text-green-500" : "text-red-400";
   };
 
   const getChangePercentage = (change: number, currentPrice: number) => {

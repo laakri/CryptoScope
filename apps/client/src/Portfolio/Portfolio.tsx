@@ -1,8 +1,5 @@
 import Favorites from "@/components/favorites";
-import { IoMdAdd } from "react-icons/io";
-import { Button } from "@/components/ui/button";
-import { FaRegStar } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 
 const Portfolio: React.FC = () => {
@@ -11,30 +8,10 @@ const Portfolio: React.FC = () => {
       className="max-w-screen-2xl w-full mx-auto px-4  flex justify-between gap-4 "
       style={{ minHeight: "calc(100vh - 10rem)" }}
     >
-      {/* Render the Sidebar component here */}
       <Sidebar />
 
-      <div className="overflow-hidden w-full  p-4">
-        <div className="flex justify-between  ">
-          <Button variant="secondary" className="rounded-2xl ">
-            Share
-          </Button>
-          <div className="flex items-center gap-1 ">
-            <Button variant="link" className=" text-md hover:text-yellow-500">
-              <FaRegStar />
-            </Button>
-            <Link to="/Portfolio/list/66">
-              <Button variant="ghost" className="flex gap-1">
-                Add List
-                <IoMdAdd className="text-md" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <Outlet />
-      </div>
+      <Outlet />
 
-      {/* Render the Favorites component here */}
       <Favorites />
     </div>
   );
