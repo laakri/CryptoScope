@@ -3,13 +3,13 @@ import startedimg from "../assets/Lines/squi-dash.png";
 
 const StartingSection: React.FC = () => {
   return (
-    <div className="mx-8 my-6 relative ">
+    <div className="mx-8 my-6 relative  ">
       <div className="absolute top-0 left-0 w-full h-full z-0">
         <div className="absolute top-50 -left-4 w-96 h-96 bg-pink-900 rounded-full opacity-20 filter blur-xl animate-blob"></div>
         <div className="absolute top-72 -right-36 w-96 h-96 bg-yellow-900 rounded-full opacity-20 filter blur-xl animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-36 left-56 w-96 h-96 bg-purple-900 rounded-full opacity-20 filter blur-xl animate-blob animation-delay-4000"></div>
       </div>
-      <div className="relative z-1">
+      <div className="relative z-1  ">
         <h1 className="text-4xl ">Welcome to Crypto Scope</h1>
         <img src={startedimg} alt="chlak-image" className="h-8" />
 
