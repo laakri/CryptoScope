@@ -248,7 +248,6 @@ const ListPage: React.FC = () => {
                                       textDecoration: target.hit
                                         ? "line-through red"
                                         : "none",
-                                      color: "white",
                                       textDecorationThickness: "2px",
                                     }}
                                   >
