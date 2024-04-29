@@ -1,8 +1,39 @@
 const express = require("express");
 const router = express.Router();
 const Crypto = require("../models/crypto");
+const TargetTable = require("../models/targetTable");
+const Coin = require("../models/coin");
 const cron = require("node-cron");
 const axios = require("axios");
+
+const updateTargetHitState = async () => {
+  try {
+    const targetTables = await TargetTable.find().populate("coins");
+
+    targetTables.forEach(async (targetTable) => {
+      targetTable.coins.forEach(async (coin) => {
+        if (coin.existingCoin) {
+          const coinInfos = await coin.populate("existingCoin");
+          coin.targets.forEach(async (target) => {
+            if (
+              coinInfos.existingCoin.current_price >=
+                parseFloat(target.value) &&
+              !target.hit
+            ) {
+              target.hit = true;
+              console.log(target.hit);
+            }
+          });
+          await coin.save();
+        }
+      });
+    });
+
+    console.log("Target hit state updated successfully.");
+  } catch (error) {
+    console.error("Error updating target hit state:", error);
+  }
+};
 
 const fetchDataAndUpdate = async () => {
   try {
@@ -19,6 +50,7 @@ const fetchDataAndUpdate = async () => {
         });
       })
     );
+    await updateTargetHitState();
 
     console.log("Data updated successfully.");
   } catch (error) {
@@ -27,7 +59,7 @@ const fetchDataAndUpdate = async () => {
 };
 
 // Schedule job to fetch and update data every 10 minutes
-cron.schedule("*/10 * * * *", fetchDataAndUpdate);
+cron.schedule("*/1 * * * *", fetchDataAndUpdate);
 
 // Route to get coin prices
 router.get("/coin-prices", async (req, res) => {

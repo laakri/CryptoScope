@@ -144,8 +144,6 @@ router.post(
 router.get("/:targetTableId/:userId", async (req, res) => {
   try {
     const { targetTableId, userId } = req.params;
-    console.log("userID", userId);
-
     const isUserOwner = await checkUserOwnership(targetTableId, userId);
 
     const targetTable = await TargetTable.findById(targetTableId);
