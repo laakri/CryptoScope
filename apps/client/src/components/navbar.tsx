@@ -136,30 +136,49 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <div className="w-full h-10  bg-opacity-50 backdrop-filter backdrop-blur-lg inline-flex flex-nowrap overflow-hidden mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)">
-        <ul
-          ref={logosRef}
-          className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll"
-        >
-          {topTrendingCoins.map((coin, index) => (
-            <li
-              key={`${coin._id}-${index}`}
-              className="flex mx-6 gap-2 items-center  "
-            >
-              <img
-                src={coin.image}
-                alt={coin.symbol}
-                className="h-6 w-6  rounded-xl bg-white"
-              />
-              <div>{coin.symbol.toUpperCase()}</div>
-              <div>{coin.current_price.toFixed(2)}</div>
-              <div className=" text-green-400">
-                {coin.price_change_24h.toFixed(2)}%
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {topTrendingCoins.length !== 0 && (
+        <div className="w-full h-10  bg-opacity-50 backdrop-filter backdrop-blur-lg inline-flex flex-nowrap overflow-hidden mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)">
+          <ul
+            ref={logosRef}
+            className="flex items-center justify-center md:justify-start &_li:mx-8 &_img:max-w-none animate-infinite-scroll"
+          >
+            {topTrendingCoins.map((coin, index) => (
+              <li
+                key={`${coin._id}-${index}`}
+                className="flex mx-6 gap-2 items-center  "
+              >
+                <img
+                  src={coin.image}
+                  alt={coin.symbol}
+                  className="h-6 w-6  rounded-xl bg-white"
+                />
+                <div>{coin.symbol.toUpperCase()}</div>
+                <div>{coin.current_price.toFixed(2)}</div>
+                <div className=" text-green-400">
+                  {coin.price_change_24h.toFixed(2)}%
+                </div>
+              </li>
+            ))}
+            {topTrendingCoins.map((coin, index) => (
+              <li
+                key={`${coin._id}-${index}`}
+                className="flex mx-6 gap-2 items-center  "
+              >
+                <img
+                  src={coin.image}
+                  alt={coin.symbol}
+                  className="h-6 w-6  rounded-xl bg-white"
+                />
+                <div>{coin.symbol.toUpperCase()}</div>
+                <div>{coin.current_price.toFixed(2)}</div>
+                <div className=" text-green-400">
+                  {coin.price_change_24h.toFixed(2)}%
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
