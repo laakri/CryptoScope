@@ -1,7 +1,10 @@
 import { FaCheck } from "react-icons/fa";
 import startedimg from "../assets/Lines/squi-dash.png";
+import darkstartedimg from "../assets/Lines/dark-squi-dash.png";
+import { useTheme } from "@/components/ui/theme-provider";
 
 const StartingSection: React.FC = () => {
+  const { theme } = useTheme();
   return (
     <div className="mx-8 my-6 relative  ">
       <div className="absolute top-0 left-0 w-full h-full z-0">
@@ -11,7 +14,11 @@ const StartingSection: React.FC = () => {
       </div>
       <div className="relative z-1  ">
         <h1 className="text-4xl ">Welcome to Crypto Scope</h1>
-        <img src={startedimg} alt="chlak-image" className="h-8" />
+        <img
+          src={theme === "light" ? darkstartedimg : startedimg}
+          alt="chlak-image"
+          className="h-8"
+        />
 
         <p className="text-gray mt-2 ">
           Crypto Scope is your all-in-one platform for managing your
@@ -29,9 +36,11 @@ const StartingSection: React.FC = () => {
           <ol className="list-decimal text-gray mt-4 ml-6">
             <li>
               <p className="font-bold flex items-center gap-1 ">
-                <FaCheck className="text-green-400" />
+                <FaCheck className="text-green-800 dark:text-green-400" />
 
-                <del className="text-green-200">Create Your Account: </del>
+                <del className="text-green-800 dark:text-green-200">
+                  Create Your Account:
+                </del>
               </p>
               Sign up for a Crypto Scope account to unlock the full potential of
               our platform.
@@ -90,7 +99,11 @@ const StartingSection: React.FC = () => {
             </li>
           </ul>
         </div>
-        <img src={startedimg} alt="chlak-image" className="h-8" />
+        <img
+          src={theme === "light" ? darkstartedimg : startedimg}
+          alt="chlak-image"
+          className="h-8"
+        />
       </div>
     </div>
   );

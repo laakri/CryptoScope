@@ -6,7 +6,7 @@ const Portfolio: React.FC = () => {
   return (
     <div
       className="max-w-screen-2xl w-full mx-auto flex justify-between gap-2 "
-      style={{ minHeight: "calc(100vh - 10rem)" }}
+      style={{ minHeight: "calc(100vh - 12rem)" }}
     >
       <Sidebar />
       <Outlet />

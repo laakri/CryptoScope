@@ -1,7 +1,9 @@
-import { FaCheck } from "react-icons/fa";
 import startedimg from "../assets/Lines/squi-dash.png";
+import darkstartedimg from "../assets/Lines/dark-squi-dash.png";
+import { useTheme } from "@/components/ui/theme-provider";
 
 const GeneralIdea: React.FC = () => {
+  const { theme } = useTheme();
   return (
     <div className="mx-8 my-6 relative ">
       <div className="absolute top-0 left-0 w-full h-full z-0">
@@ -13,7 +15,11 @@ const GeneralIdea: React.FC = () => {
         <h1 className="text-4xl">
           Understanding Crypto Targets and Strategies
         </h1>
-        <img src={startedimg} alt="chlak-image" className="h-8" />
+        <img
+          src={theme === "light" ? darkstartedimg : startedimg}
+          alt="chlak-image"
+          className="h-8"
+        />
 
         <p className="text-gray mt-2 ">
           Cryptocurrency investment involves setting targets, managing stress,
@@ -101,7 +107,11 @@ const GeneralIdea: React.FC = () => {
             </li>
           </ul>
         </div>
-        <img src={startedimg} alt="chlak-image" className="h-8" />
+        <img
+          src={theme === "light" ? darkstartedimg : startedimg}
+          alt="chlak-image"
+          className="h-8"
+        />
       </div>
     </div>
   );
