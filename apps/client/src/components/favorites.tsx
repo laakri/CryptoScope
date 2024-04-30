@@ -6,6 +6,7 @@ import {
 } from "react-icons/md";
 import { Button } from "./ui/button";
 import arrowimg from "../assets/Lines/squi-arrow.png";
+import darkarrowimg from "../assets/Lines/dark-squi-arrow.png";
 import docnotfounimg from "../assets/Lines/image-removebg-preview (2).png";
 import { Reorder } from "framer-motion";
 import {
@@ -21,11 +22,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useUserStore } from "@/stores/user";
+import { useTheme } from "./ui/theme-provider";
 const Favorites: React.FC = () => {
   const client = useQueryClient();
   const [favorites, setFavorites] = useState<any[]>([]);
   const [active, setactive] = useState(0);
   const { user } = useUserStore();
+  const { theme } = useTheme();
 
   const fetchUserFavoriteCoins: QueryFunction<any, string> = async () => {
     try {
@@ -97,7 +100,11 @@ const Favorites: React.FC = () => {
       <div className="rounded-xl border min-h-24 max-h-max mt-2">
         <div className="p-4">
           <h2 className="text-xl font-bold mb-4 flex items-center gap-2 justify-center">
-            <img src={arrowimg} alt="" className="h-7" />
+            <img
+              src={theme === "light" ? darkarrowimg : arrowimg}
+              alt=""
+              className="h-7"
+            />
             Favorites Coins
           </h2>
           {FavLoading ? (

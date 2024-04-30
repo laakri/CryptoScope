@@ -7,6 +7,10 @@ import { useUserStore } from "@/stores/user";
 import { FaHandsAslInterpreting } from "react-icons/fa6";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import resorLine from "../assets/Lines/resor-line.png";
+import darkresorLine from "../assets/Lines/dark-resor-line.png";
+import whitelogo from "../assets/Lines/X-line.png";
+import darkwhitelogo from "../assets/Lines/dark-X-line.png";
+
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { LuListMinus } from "react-icons/lu";
@@ -18,9 +22,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import whitelogo from "../assets/Lines/X-line.png";
+import { useTheme } from "./ui/theme-provider";
 
 const Sidebar: React.FC = () => {
+  const { theme } = useTheme();
+
   const [targetTables, setTargetTables] = useState<any[]>([]);
   const { user } = useUserStore();
   useEffect(() => {
@@ -44,7 +50,7 @@ const Sidebar: React.FC = () => {
         <Sheet>
           <div
             className=" block lg:hidden min-w-max h-full pl-2 pt-2 min-h-screen"
-            style={{ minHeight: "calc(100vh - 10rem)" }}
+            style={{ minHeight: "calc(100vh - 12rem)" }}
           >
             <SheetTrigger>
               <Button size={"icon"} variant={"secondary"}>
@@ -56,7 +62,11 @@ const Sidebar: React.FC = () => {
             <SheetHeader>
               <SheetTitle>
                 <div className="flex items-center gap-2 font-4 ">
-                  <img src={whitelogo} alt="white-logo" className="w-6" />
+                  <img
+                    src={theme === "light" ? darkwhitelogo : whitelogo}
+                    alt="white-logo"
+                    className="w-6"
+                  />
                   <p className="font-bold  text-lg ">CRYPTO SCOPE</p>
                 </div>
               </SheetTitle>
@@ -66,7 +76,7 @@ const Sidebar: React.FC = () => {
                 >
                   <Link
                     to="/Portfolio/Started"
-                    className="text-black dark:text-white flex items-center rounded-sm hover:bg-gray-700 p-2 hover:cursor-pointer gap-2"
+                    className="text-black dark:text-white flex items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  p-2 hover:cursor-pointer gap-2"
                   >
                     <FaHandsAslInterpreting className="text-yellow-400" />
                     <div className="flex items-center gap-1">
@@ -77,7 +87,7 @@ const Sidebar: React.FC = () => {
                   </Link>
                   <Link
                     to="/Portfolio/GeneralIdea"
-                    className="text-black dark:text-white flex items-center rounded-sm hover:bg-gray-700 p-2 hover:cursor-pointer gap-2"
+                    className="text-black dark:text-white flex items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  p-2 hover:cursor-pointer gap-2"
                   >
                     <FaBitcoin className="text-blue-400" />
                     <div className="flex items-center gap-1">
@@ -91,7 +101,7 @@ const Sidebar: React.FC = () => {
                   </div>
                   <Link
                     to="/Portfolio/list/6627905170dbf354df70874b"
-                    className="text-black dark:text-white flex justify-between items-center rounded-sm hover:bg-gray-700 px-2 py-1 mb-1 hover:cursor-pointer"
+                    className="text-black dark:text-white flex justify-between items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  px-2 py-1 mb-1 hover:cursor-pointer"
                   >
                     <div className="flex items-center gap-2">
                       <p className="text-black dark:text-white text-md">
@@ -102,20 +112,15 @@ const Sidebar: React.FC = () => {
                       </p>
                     </div>
                   </Link>
-                  {/* <Link to="list/6626dbe550aa0db3b0c07130">
-        <div className="min-h-6 px-1 flex flex-col gap-1 mb-4">
-          <div className="flex items-center gap-1">
-            <MdKeyboardArrowRight />
-            <p className="text-black dark:text-white hover:text-black dark:text-white-100 hover:cursor-pointer ">
-              Solana Coins
-            </p>
-          </div>
-        </div>
-      </Link> */}
+
                   <div className="ml-2">
-                    <img src={resorLine} alt="resorLine" className="h-10" />
+                    <img
+                      src={theme === "light" ? darkresorLine : resorLine}
+                      alt="resorLine"
+                      className="h-10"
+                    />
                   </div>
-                  <div className="text-black dark:text-white flex justify-between items-center rounded-sm hover:bg-gray-700 px-2 py-1 hover:cursor-pointer">
+                  <div className="text-black dark:text-white flex justify-between items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  px-2 py-1 hover:cursor-pointer">
                     <Link
                       to="/Portfolio/list"
                       className="flex items-center gap-1"
@@ -148,7 +153,11 @@ const Sidebar: React.FC = () => {
                       ))
                     ) : (
                       <div className="ml-2">
-                        <img src={resorLine} alt="resorLine" className="h-10" />
+                        <img
+                          src={theme === "light" ? darkresorLine : resorLine}
+                          alt="resorLine"
+                          className="h-10"
+                        />
                       </div>
                     )}
                   </div>
@@ -160,11 +169,11 @@ const Sidebar: React.FC = () => {
       </div>
       <div
         className={`hidden lg:block overflow-hidden min-w-[13rem] h-full border-r  mt-4 pt-4 min-h-screen`}
-        style={{ minHeight: "calc(100vh - 10rem)" }}
+        style={{ minHeight: "calc(100vh - 12rem)" }}
       >
         <Link
           to="/Portfolio/Started"
-          className="text-gray flex items-center rounded-sm hover:bg-gray-700 p-2 hover:cursor-pointer gap-2"
+          className="text-gray flex items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  p-2 hover:cursor-pointer gap-2"
         >
           <FaHandsAslInterpreting className="text-yellow-400" />
           <div className="flex items-center gap-1">
@@ -173,7 +182,7 @@ const Sidebar: React.FC = () => {
         </Link>
         <Link
           to="/Portfolio/GeneralIdea"
-          className="text-gray flex items-center rounded-sm hover:bg-gray-700 p-2 hover:cursor-pointer gap-2"
+          className="text-gray flex items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  p-2 hover:cursor-pointer gap-2"
         >
           <FaBitcoin className="text-blue-400" />
           <div className="flex items-center gap-1">
@@ -185,7 +194,7 @@ const Sidebar: React.FC = () => {
         </div>
         <Link
           to="/Portfolio/list/6627905170dbf354df70874b"
-          className="text-gray flex justify-between items-center rounded-sm hover:bg-gray-700 px-2 py-1 mb-1 hover:cursor-pointer"
+          className="text-gray flex justify-between items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  px-2 py-1 mb-1 hover:cursor-pointer"
         >
           <div className="flex items-center gap-2">
             <p className="text-gray text-md">Favorite Lists</p>
@@ -205,9 +214,13 @@ const Sidebar: React.FC = () => {
         </div>
       </Link> */}
         <div className="ml-2">
-          <img src={resorLine} alt="resorLine" className="h-10" />
+          <img
+            src={theme === "light" ? darkresorLine : resorLine}
+            alt="resorLine"
+            className="h-10"
+          />
         </div>
-        <div className="text-gray flex justify-between items-center rounded-sm hover:bg-gray-700 px-2 py-1 hover:cursor-pointer">
+        <div className="text-gray flex justify-between items-center rounded-sm hover:bg-gray-200 dark:hover:bg-gray-700  px-2 py-1 hover:cursor-pointer">
           <Link to="/Portfolio/list" className="flex items-center gap-1">
             <p className="text-gray text-md">Lists</p>
             <p className="text-gray text-xs">browse </p>
@@ -233,7 +246,11 @@ const Sidebar: React.FC = () => {
             ))
           ) : (
             <div className="ml-2">
-              <img src={resorLine} alt="resorLine" className="h-10" />
+              <img
+                src={theme === "light" ? darkresorLine : resorLine}
+                alt="resorLine"
+                className="h-10"
+              />
             </div>
           )}
         </div>
