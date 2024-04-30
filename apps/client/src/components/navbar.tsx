@@ -7,12 +7,15 @@ import { useUserStore } from "@/stores/user";
 import { MdLogout } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import whitelogo from "../assets/Lines/X-line.png";
+import darklogo from "../assets/Lines/dark-X-line.png";
 import { Input } from "./ui/input";
 import { getTopTrendingCoins } from "@/services/cryptoService";
 import { FaBell } from "react-icons/fa";
 import { ModeToggle } from "./mode-toggle";
+import { useTheme } from "./ui/theme-provider";
 
 function Navbar() {
+  const { theme } = useTheme();
   const { user, logout } = useUserStore();
   const logosRef = useRef<HTMLUListElement>(null);
   const [topTrendingCoins, setTopTrendingCoins] = useState<any[]>([]);
@@ -60,8 +63,11 @@ function Navbar() {
         <div className="max-w-screen-2xl mx-auto flex justify-between items-center">
           <Link to="/" className="">
             <Button variant="link" className="flex items-center gap-2 font-4 ">
-              {/* <TfiTarget className="text-xl text-gray-200" /> */}
-              <img src={whitelogo} alt="white-logo" className="w-6" />
+              <img
+                src={theme === "light" ? darklogo : whitelogo}
+                alt="white-logo"
+                className="w-6"
+              />
               <p className="font-bold  text-lg ">CRYPTO SCOPE</p>
             </Button>
           </Link>
@@ -82,6 +88,11 @@ function Navbar() {
               <Link to="/CoinsList" className="">
                 <Button variant="ghost" className=" ">
                   Coins
+                </Button>
+              </Link>
+              <Link to="/Marketplace" className="">
+                <Button variant="ghost" className=" ">
+                  Marketplace
                 </Button>
               </Link>
               {user && (
@@ -154,7 +165,7 @@ function Navbar() {
                 />
                 <div>{coin.symbol.toUpperCase()}</div>
                 <div>{coin.current_price.toFixed(2)}</div>
-                <div className=" text-green-400">
+                <div className=" text-green-600 dark:text-green-400">
                   {coin.price_change_24h.toFixed(2)}%
                 </div>
               </li>
@@ -171,7 +182,7 @@ function Navbar() {
                 />
                 <div>{coin.symbol.toUpperCase()}</div>
                 <div>{coin.current_price.toFixed(2)}</div>
-                <div className=" text-green-400">
+                <div className=" text-green-600 dark:text-green-400 ">
                   {coin.price_change_24h.toFixed(2)}%
                 </div>
               </li>
