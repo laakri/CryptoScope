@@ -126,7 +126,7 @@ const ListPage: React.FC = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, user]);
 
   return (
     <>
@@ -185,10 +185,9 @@ const ListPage: React.FC = () => {
                     <TableRow>
                       <TableHead>Coin</TableHead>
                       <TableHead>Price</TableHead>
-                      {coins.length > 0 &&
-                        coins[0].targets.map((_, index) => (
-                          <TableHead key={index}>Target {index + 1}</TableHead>
-                        ))}
+                      {coins[0].targets.map((_, index) => (
+                        <TableHead key={index}>Target {index + 1}</TableHead>
+                      ))}
                       {isUserOwner && (
                         <TableHead>
                           <ButtonSmooth

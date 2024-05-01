@@ -26,23 +26,27 @@ import { useTheme } from "./ui/theme-provider";
 
 const Sidebar: React.FC = () => {
   const { theme } = useTheme();
-
   const [targetTables, setTargetTables] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserStore();
-  useEffect(() => {
-    const fetchTargetTables = async () => {
-      try {
-        if (user) {
-          const data = await getTargetTablesByUserId(user?.userId);
-          setTargetTables(data);
-        }
-      } catch (error) {
-        console.error("Error fetching target tables:", error);
-      }
-    };
 
+  const fetchTargetTables = async () => {
+    setIsLoading(true);
+
+    try {
+      if (user) {
+        const response = await getTargetTablesByUserId(user?.userId);
+        setTargetTables(response);
+      }
+    } catch (error) {
+      console.error("Error fetching target tables:", error);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
     fetchTargetTables();
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -129,7 +133,7 @@ const Sidebar: React.FC = () => {
                         Lists
                       </p>
                       <p className="text-black dark:text-white text-xs">
-                        browse{" "}
+                        browse
                       </p>
                     </Link>
                     <Link to="/Portfolio/list/6627905170dbf354df70874b">
@@ -140,7 +144,17 @@ const Sidebar: React.FC = () => {
                   </div>
 
                   <div className="px-1 flex flex-col gap-1">
-                    {targetTables.length > 0 ? (
+                    {isLoading ? (
+                      "Loading"
+                    ) : targetTables.length == 0 ? (
+                      <div className="ml-2">
+                        <img
+                          src={theme === "light" ? darkresorLine : resorLine}
+                          alt="resorLine"
+                          className="h-10"
+                        />
+                      </div>
+                    ) : (
                       targetTables.map((table) => (
                         <Link to={`ListPage/${table._id}`} key={table._id}>
                           <div className="flex items-center gap-1">
@@ -151,14 +165,6 @@ const Sidebar: React.FC = () => {
                           </div>
                         </Link>
                       ))
-                    ) : (
-                      <div className="ml-2">
-                        <img
-                          src={theme === "light" ? darkresorLine : resorLine}
-                          alt="resorLine"
-                          className="h-10"
-                        />
-                      </div>
                     )}
                   </div>
                 </div>
@@ -233,18 +239,9 @@ const Sidebar: React.FC = () => {
         </div>
 
         <div className="px-1 flex flex-col gap-1">
-          {targetTables.length > 0 ? (
-            targetTables.map((table) => (
-              <Link to={`ListPage/${table._id}`} key={table._id}>
-                <div className="flex items-center gap-1">
-                  <MdKeyboardArrowRight />
-                  <p className="text-gray hover:text-gray-100 hover:cursor-pointer">
-                    {table.name}
-                  </p>
-                </div>
-              </Link>
-            ))
-          ) : (
+          {isLoading ? (
+            "Loading"
+          ) : targetTables.length == 0 ? (
             <div className="ml-2">
               <img
                 src={theme === "light" ? darkresorLine : resorLine}
@@ -252,6 +249,17 @@ const Sidebar: React.FC = () => {
                 className="h-10"
               />
             </div>
+          ) : (
+            targetTables.map((table) => (
+              <Link to={`ListPage/${table._id}`} key={table._id}>
+                <div className="flex items-center gap-1">
+                  <MdKeyboardArrowRight />
+                  <p className="text-black dark:text-white hover:text-gray-100  hover:cursor-pointer">
+                    {table.name}
+                  </p>
+                </div>
+              </Link>
+            ))
           )}
         </div>
       </div>

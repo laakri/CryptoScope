@@ -268,7 +268,7 @@ const Marketplace: React.FC = () => {
   return (
     <div className="min-h-screen">
       <div className="h-28 overflow-hidden relative">
-        <img src={bannerSolana} alt="bannerSolana" />
+        {/* <img src={bannerSolana} alt="bannerSolana" /> */}
         <div className="absolute inset-0 flex  flex-col gap-2 justify-center  items-center text-center ">
           <div className="text-3xl text-white">Marketplace</div>
           <p className="text-sm text-gray-400">
