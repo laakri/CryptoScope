@@ -48,7 +48,6 @@ const SignUp: React.FC = () => {
     setLoading(true);
 
     try {
-      console.log(values);
       await signUp(values);
       toast({
         title: "Success",

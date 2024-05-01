@@ -45,7 +45,6 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      console.log(values);
       await login(values);
       toast({
         title: "Success",
