@@ -25,18 +25,20 @@ import {
 import { useTheme } from "./ui/theme-provider";
 
 const Sidebar: React.FC = () => {
+  const { user } = useUserStore();
+
   const { theme } = useTheme();
   const [targetTables, setTargetTables] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useUserStore();
 
   const fetchTargetTables = async () => {
     setIsLoading(true);
-
     try {
       if (user) {
         const response = await getTargetTablesByUserId(user?.userId);
         setTargetTables(response);
+      } else {
+        setTargetTables([]);
       }
     } catch (error) {
       console.error("Error fetching target tables:", error);
