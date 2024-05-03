@@ -1,8 +1,8 @@
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import { getFastifyPlugin } from 'trpc-playground/handlers/fastify';
 import fastify from 'fastify';
-import appRouter from './router';
-import { createContext } from './context';
+import appRouter from './router.js';
+import { createContext } from './context.js';
 
 export interface ServerOptions {
   dev?: boolean;
