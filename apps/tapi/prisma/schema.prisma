@@ -18,6 +18,8 @@ model User {
   name     String
   email    String        @unique
   password String
+  verified Boolean       @default(false)
+  isAdmin  Boolean       @default(false)
   sessions UserSession[]
 }
 
