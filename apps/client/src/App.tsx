@@ -1,11 +1,11 @@
 import "./App.css";
 import Routing from "./Routing";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "./components/ui/theme-provider";
 import Navbar from "./components/navbar";
 import { Toaster } from "./components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Footer from "./components/Footer";
+import { ThemeProvider } from "./components/theme-provider";
 function App() {
   const queryClient = new QueryClient();
 
